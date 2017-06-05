@@ -29,6 +29,7 @@ public class Login implements Serializable {
     String username;
     String password;
     String usernameSelected;
+    private Boolean isloged=false;
      private List<String> usuariosList = new ArrayList<>();
 
     public String getUsernameSelected() {
@@ -40,11 +41,20 @@ public class Login implements Serializable {
     }
 
     public List<String> getUsuariosList() {
+        showUser();
         return usuariosList;
     }
 
     public void setUsuariosList(List<String> usuariosList) {
         this.usuariosList = usuariosList;
+    }
+
+    public Boolean getIsloged() {
+        return isloged;
+    }
+
+    public void setIsloged(Boolean isloged) {
+        this.isloged = isloged;
     }
 
   
@@ -76,16 +86,20 @@ public class Login implements Serializable {
 
     public String validar() {
         try {
+            isloged=false;
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession();
-            SessionListener.setMaximosSegundosInactividad(3080);
+            SessionListener.setMaximosSegundosInactividad(2100);
+            
             if (SessionListener.isUserLoged(username)) {
                 JsfUtil.warningMessage("(Existe) un usuario logeado en este momento con ese username " + username);
                 return "";
             }
             if (password.equals("demo")) {
+                JsfUtil.addParametersUserNameToSession("username");
                 session.setAttribute("username", username);
                 SessionListener.addUsername(username);
+                isloged=true;
                 return "admin";
             } else {
                 JsfUtil.warningMessage("Usuario no valido");
@@ -100,6 +114,8 @@ public class Login implements Serializable {
         try {
             System.out.println("Mostrando las sesiones");
             for (HttpSession h : SessionListener.getSessionList()) {
+                System.out.println("----> voy a mostrar la sesion");
+                System.out.println("h= "+h);
                 System.out.println("id " + h.getId());
                 
                 JsfUtil.successMessage("id " + h.getId() + " username " + h.getAttribute("username") );
@@ -116,8 +132,15 @@ public class Login implements Serializable {
     public String killByUserName()
     {
         try {
+           
             if(SessionListener.killSesionByUsername(usernameSelected)){
                 JsfUtil.successMessage("Se termino la sesion de "+usernameSelected);
+               
+                 if(username.equals(usernameSelected)){
+               doLogout();
+            }else{
+                    showUser();  
+                 }
             }else{
                 JsfUtil.warningMessage("No se pudo terminar la sesion de "+usernameSelected);
             }
@@ -146,9 +169,7 @@ public class Login implements Serializable {
                 JsfUtil.warningMessage("No hay usuarios online registrados");
                 return "";
             }
-//            for (String s : SessionListener.getUsernameList()) {
-//                JsfUtil.successMessage(s);
-//            }
+//        
             usuariosList = SessionListener.getUsernameOnline();
         } catch (Exception e) {
             JsfUtil.errorMessage("showUser() " + e.getLocalizedMessage());
@@ -182,6 +203,16 @@ public class Login implements Serializable {
          } catch (Exception e) {
              JsfUtil.errorMessage("saludar() "+e.getLocalizedMessage());
         }
+        return "";
+    }
+    
+    public String validateUserInSesion(){
+        try {
+             SessionListener.validateUsernameWithSession();
+        } catch (Exception e) {
+            JsfUtil.errorMessage("validateUserInSesion() "+e.getLocalizedMessage());
+        }
+       
         return "";
     }
 }

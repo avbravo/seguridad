@@ -6,18 +6,18 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
-    <meta name="sessionTimeout" http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.xhtml" />
-
+    
+<meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
     </h:head>
     <f:view>
       <h:body>
-          <h:form id="form">
+          <h:form id="form" rendered="#{login.isloged}">
               <p:messages autoUpdate="true" id="growl"/>
               <p:panel header="Login">
                   <p:panelGrid columns="2">
                       <h:outputLabel value="username #{login.username}"/>
                     
-                     
+                     contextPath: #{request.contextPath}
                      
                   </p:panelGrid>
               </p:panel>
@@ -25,23 +25,26 @@
                   <p:panelGrid columns="3">
                     
                        <p:commandButton value="Load user Online" action="#{login.showUser}"
-                                       update=":form:growl :form:datatable"/>
+                                       update=":form:growl :form:combo"/>
                       
-                      <p:selectOneMenu  id="datatable" value="#{login.usernameSelected}">
+                      <p:selectOneMenu  id="combo" value="#{login.usernameSelected}">
                                <f:selectItems value="#{login.usuariosList}" />
                                   </p:selectOneMenu>
                                 <p:commandButton value="Terminar Ese usuario" action="#{login.killByUserName()}"
-                                       update=":form:growl"/>
+                                       update=":form:growl :form:combo"/>
                                
                                 
                                    <p:commandButton value="Salir" action="#{login.doLogout()}"/>
-           
+                                   <p:commandButton value="Saludar " action="#{login.saludar()}"/>
                   </p:panelGrid>
                  </p:panel>
               
               
                <p:panel header="Otros">
-                  <p:panelGrid columns="2">
+                  <p:panelGrid columns="3">
+                      <p:commandButton value="Validate User"
+                                       action="#{login.validateUserInSesion()}"
+                                       update=":form:growl"/>
                        <p:commandButton value="Mostrar Sessiones" action="#{login.showSessions()}"
                                        update=":form:growl"/>
                         <p:commandButton value="Terminar Todas Sesiones" action="#{login.kill()}"
@@ -49,6 +52,12 @@
                      </p:panelGrid>
                  </p:panel>  
               
+          </h:form>
+          <h:form id="form2" rendered="#{!login.isloged}">
+              <p:panel header="Usuario no logeado">
+                  <p:link value="Home" outcome="index"/>
+                  
+              </p:panel>
           </h:form>
     </h:body>  
     </f:view>
