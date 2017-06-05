@@ -20,11 +20,11 @@
             <artifactId>primefaces</artifactId>
             <version>6.1</version>
         </dependency>
-       <dependency>
-	    <groupId>com.github.avbravo</groupId>
-	    <artifactId>avbravoutils</artifactId>
-	    <version>0.8</version>
-	</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>avbravoutils</artifactId>
+            <version>0.8.2</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

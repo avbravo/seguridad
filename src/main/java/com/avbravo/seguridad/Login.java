@@ -78,7 +78,7 @@ public class Login implements Serializable {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession();
-            SessionListener.setMaximosSegundosInactividad(80);
+            SessionListener.setMaximosSegundosInactividad(3080);
             if (SessionListener.isUserLoged(username)) {
                 JsfUtil.warningMessage("(Existe) un usuario logeado en este momento con ese username " + username);
                 return "";
@@ -86,7 +86,7 @@ public class Login implements Serializable {
             if (password.equals("demo")) {
                 session.setAttribute("username", username);
                 SessionListener.addUsername(username);
-                return "welcome";
+                return "admin";
             } else {
                 JsfUtil.warningMessage("Usuario no valido");
             }
@@ -108,7 +108,7 @@ public class Login implements Serializable {
 
             JsfUtil.successMessage("Sesiones mostradas");
         } catch (Exception e) {
-            JsfUtil.errorMessage("recorrer() " + e.getLocalizedMessage());
+            JsfUtil.errorMessage("showSessions() " + e.getLocalizedMessage());
         }
         return "";
     }

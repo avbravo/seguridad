@@ -25,34 +25,7 @@
                      
                   </p:panelGrid>
               </p:panel>
-              <p:panel header="Online">
-                  <p:panelGrid columns="3">
-                    
-                       <p:commandButton value="Load user Online" action="#{login.showUser}"
-                                       update=":form:growl :form:datatable"/>
-                      
-                      <p:selectOneMenu  id="datatable" value="#{login.usernameSelected}">
-                               <f:selectItems value="#{login.usuariosList}" />
-                                  </p:selectOneMenu>
-                                <p:commandButton value="Terminar Ese usuario" action="#{login.killByUserName()}"
-                                       update=":form:growl"/>
-                               
-                                
-                                
-           
-                  </p:panelGrid>
-                 </p:panel>
-              
-              
-               <p:panel header="Otros">
-                  <p:panelGrid columns="2">
-                       <p:commandButton value="Mostrar Sessiones" action="#{login.showSessions()}"
-                                       update=":form:growl"/>
-                        <p:commandButton value="Terminar Todas Sesiones" action="#{login.kill()}"
-                                       update=":form:growl"/>
-                     </p:panelGrid>
-                 </p:panel>  
-              
+
           </h:form>
     </h:body>  
     </f:view>
