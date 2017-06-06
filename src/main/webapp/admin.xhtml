@@ -11,11 +11,11 @@
     </h:head>
     <f:view>
       <h:body>
-          <h:form id="form" rendered="#{login.isloged}">
+          <h:form id="form" rendered="#{loginController.loggedIn}">
               <p:messages autoUpdate="true" id="growl"/>
               <p:panel header="Login">
                   <p:panelGrid columns="2">
-                      <h:outputLabel value="username #{login.username}"/>
+                      <h:outputLabel value="username #{loginController.username}"/>
                     
                      contextPath: #{request.contextPath}
                      
@@ -24,21 +24,21 @@
               <p:panel header="Online">
                   <p:panelGrid columns="4">
                     
-                       <p:commandButton value="Load user Online" action="#{login.showUser}"
+                      <p:commandButton value="Load user Online" action="#{loginController.loadAllUser}"
                                        update=":form:growl :form:combo"/>
                       
-                      <p:selectOneMenu  id="combo" value="#{login.usernameSelected}">
-                               <f:selectItems value="#{login.usuariosList}" />
+                      <p:selectOneMenu  id="combo" value="#{loginController.usernameSelected}">
+                               <f:selectItems value="#{loginController.usernameList}" />
                                   </p:selectOneMenu>
-                                <p:commandButton value="Terminar Ese usuario" action="#{login.killByUserName()}"
+                                <p:commandButton value="Terminar Ese usuario" action="#{loginController.killSessionByUserName()}"
                                        update=":form:growl :form:combo"/>
                                
                                      <p:commandButton value="Validate User"
-                                       action="#{login.validateUserInSesion()}"
+                                                      action="#{loginController.validateAllSessions()}"
                                        update=":form:growl"/>
                                 
-                                   <p:commandButton value="Salir" action="#{login.doLogout()}"/>
-                                   <p:commandButton value="Mensaje Prueba " action="#{login.saludar()}"/>
+                                   <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
+                                   <p:commandButton value="Mensaje Prueba " action="#{loginController.saludar()}"/>
                   </p:panelGrid>
                  </p:panel>
               
@@ -46,15 +46,15 @@
                <p:panel header="Otros">
                   <p:panelGrid columns="3">
                  
-                       <p:commandButton value="Mostrar Sessiones" action="#{login.showSessions()}"
+                       <p:commandButton value="Mostrar Sessiones" action="#{loginController.showAllSessions()}"
                                        update=":form:growl"/>
-                        <p:commandButton value="Terminar Todas Sesiones" action="#{login.kill()}"
+                        <p:commandButton value="Terminar Todas Sesiones" action="#{loginController.killAllSessions()}"
                                        update=":form:growl"/>
                      </p:panelGrid>
                  </p:panel>  
               
           </h:form>
-          <h:form id="form2" rendered="#{!login.isloged}">
+          <h:form id="form2" rendered="#{!loginController.loggedIn}">
               <p:panel header="Usuario no logeado">
                   <p:link value="Home" outcome="index"/>
                   

@@ -15,10 +15,10 @@
               <p:panel header="Login">
                   <p:panelGrid columns="2">
                       <h:outputLabel value="username"/>
-                      <p:inputText value="#{login.username}"/>
+                      <p:inputText value="#{loginController.username}"/>
                       <p:outputLabel value="Password"/>
-                      <p:password value="#{login.password}"/>
-                      <p:commandButton value="Login" action="#{login.validar()}"
+                      <p:password value="#{loginController.password}"/>
+                      <p:commandButton value="Login" action="#{loginController.doLogin()}"
                                        update ="growl"/>
                       
                      
