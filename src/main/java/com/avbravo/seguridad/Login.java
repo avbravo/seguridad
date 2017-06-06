@@ -7,7 +7,7 @@ package com.avbravo.seguridad;
 
 import com.avbravo.avbravoutils.JsfUtil;
 
-import com.avbravo.avbravoutils.security.SessionListener;
+
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -89,7 +89,8 @@ public class Login implements Serializable {
             isloged=false;
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession();
-            SessionListener.setMaximosSegundosInactividad(2100);
+//            SessionListener.setMaximosSegundosInactividad(2100);
+         //   SessionListener.setMaximosSegundosInactividad(2100);
             
             if (SessionListener.isUserLoged(username)) {
                 JsfUtil.warningMessage("(Existe) un usuario logeado en este momento con ese username " + username);
