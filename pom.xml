@@ -23,7 +23,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>avbravoutils</artifactId>
-            <version>0.8.2.12</version>
+            <version>0.8.2.13</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

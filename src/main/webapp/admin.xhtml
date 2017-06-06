@@ -22,7 +22,7 @@
                   </p:panelGrid>
               </p:panel>
               <p:panel header="Online">
-                  <p:panelGrid columns="3">
+                  <p:panelGrid columns="4">
                     
                        <p:commandButton value="Load user Online" action="#{login.showUser}"
                                        update=":form:growl :form:combo"/>
@@ -33,18 +33,19 @@
                                 <p:commandButton value="Terminar Ese usuario" action="#{login.killByUserName()}"
                                        update=":form:growl :form:combo"/>
                                
+                                     <p:commandButton value="Validate User"
+                                       action="#{login.validateUserInSesion()}"
+                                       update=":form:growl"/>
                                 
                                    <p:commandButton value="Salir" action="#{login.doLogout()}"/>
-                                   <p:commandButton value="Saludar " action="#{login.saludar()}"/>
+                                   <p:commandButton value="Mensaje Prueba " action="#{login.saludar()}"/>
                   </p:panelGrid>
                  </p:panel>
               
               
                <p:panel header="Otros">
                   <p:panelGrid columns="3">
-                      <p:commandButton value="Validate User"
-                                       action="#{login.validateUserInSesion()}"
-                                       update=":form:growl"/>
+                 
                        <p:commandButton value="Mostrar Sessiones" action="#{login.showSessions()}"
                                        update=":form:growl"/>
                         <p:commandButton value="Terminar Todas Sesiones" action="#{login.kill()}"
