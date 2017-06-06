@@ -160,7 +160,8 @@ public class LoginController implements Serializable, LoginInterface {
             if (password.equals("demo")) {
                 JsfUtil.addParametersUserNameToSession("username");
                 session.setAttribute("username", username);
-                SessionListener.addUsername(username);
+                addUsername(username,session);
+                
                 loggedIn = true;
                 return "admin";
             } else {
