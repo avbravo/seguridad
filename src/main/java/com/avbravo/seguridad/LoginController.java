@@ -6,8 +6,7 @@
 package com.avbravo.seguridad;
 
 import com.avbravo.avbravoutils.JsfUtil;
-import com.avbravo.avbravoutils.security.LoginInterface;
-import com.avbravo.avbravoutils.security.SessionListener;
+import com.avbravo.avbravoutils.security.BrowserSession;
 
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -16,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import com.avbravo.avbravoutils.security.SessionInterface;
 
 /**
  *
@@ -27,7 +26,7 @@ import javax.servlet.http.HttpSession;
  */
 @Named
 @SessionScoped
-public class LoginController implements Serializable, LoginInterface {
+public class LoginController implements Serializable, SessionInterface {
 
     String username;
     String password;
@@ -36,9 +35,49 @@ public class LoginController implements Serializable, LoginInterface {
     String usernameRecover = "";
 
     private Boolean loggedIn = false;
+    
+    private BrowserSession browserSessionSelecction = new BrowserSession();
     private List<String> usernameList = new ArrayList<>();
+             List<BrowserSession> browserSessionsList = getBrowserSessionList();
+             List<BrowserSession> browserSessionsFilterList = getBrowserSessionList();
     // <editor-fold defaultstate="collapsed" desc="get/set"> 
 
+    public List<BrowserSession> getBrowserSessionsFilterList() {
+        return browserSessionsFilterList;
+    }
+
+    public void setBrowserSessionsFilterList(List<BrowserSession> browserSessionsFilterList) {
+        this.browserSessionsFilterList = browserSessionsFilterList;
+    }
+
+             
+             
+    public BrowserSession getBrowserSessionSelecction() {
+        return browserSessionSelecction;
+    }
+
+    public void setBrowserSessionSelecction(BrowserSession browserSessionSelecction) {
+        this.browserSessionSelecction = browserSessionSelecction;
+    }
+
+    
+
+             
+             
+             
+    public List<BrowserSession> getBrowserSessionsList() {
+        return browserSessionsList;
+    }
+
+    public void setBrowserSessionsList(List<BrowserSession> browserSessionsList) {
+        this.browserSessionsList = browserSessionsList;
+    }
+
+  
+
+             
+             
+             
     public String getUsernameSelected() {
         return usernameSelected;
     }
@@ -202,6 +241,20 @@ public class LoginController implements Serializable, LoginInterface {
 //        return "";
 //    }
 
+    public String cancelSelectedSession(BrowserSession browserSesssion){
+        try {
+          if(  inactiveSession(browserSesssion)){
+              JsfUtil.successMessage("Se cancelo la sesion");
+              printBrowserSession();
+          }else{
+              JsfUtil.warningMessage("No se cancelo la sesion");
+          }
+          
+        } catch (Exception e) {
+            JsfUtil.errorMessage("cancelSession() "+e.getLocalizedMessage());
+        }
+        return "";
+    }
     public String killSessionByUserName() {
         try {
             if (username.equals(usernameSelected)) {
@@ -311,8 +364,27 @@ public class LoginController implements Serializable, LoginInterface {
     @Override
     public String loadAllUser() {
         usernameList = _getAllUser();
+        printBrowserSession();
         return "";
     }
 // </editor-fold>
 
+    
+    public String printBrowserSession(){
+        try {
+           browserSessionsList = getBrowserSessionList();
+            for(BrowserSession b:browserSessionsList){
+                System.out.println("Sesiones ");
+                System.out.println("id: "+b.getId());
+                System.out.println("browser"+b.getBrowser());
+                System.out.println("ipcliente"+b.getIpcliente());
+                System.out.println("username"+b.getUsername());
+                System.out.println("time"+b.getTime());
+            }
+            
+        } catch (Exception e) {
+            JsfUtil.errorMessage("printBrowserSession() "+e.getLocalizedMessage());
+        }
+        return "";
+    }
 }

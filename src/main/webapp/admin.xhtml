@@ -3,66 +3,148 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <h:head>
         <title>Facelet Title</title>
-    
-<meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
+
+        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
     </h:head>
     <f:view>
-      <h:body>
-          <h:form id="form" rendered="#{loginController.loggedIn}">
-              <p:messages autoUpdate="true" id="growl"/>
-              <p:panel header="Login">
-                  <p:panelGrid columns="2">
-                      <h:outputLabel value="username #{loginController.username}"/>
-                    
-                     contextPath: #{request.contextPath}
-                     
-                  </p:panelGrid>
-              </p:panel>
-              <p:panel header="Online">
-                  <p:panelGrid columns="4">
-                    
-                      <p:commandButton value="Load user Online" action="#{loginController.loadAllUser}"
-                                       update=":form:growl :form:combo"/>
+        <h:body>
+            <h:form id="form" rendered="#{loginController.loggedIn}">
+                <p:messages autoUpdate="true" id="growl"/>
+                <p:panel header="Login">
+                    <p:panelGrid columns="2">
+                        <h:outputLabel value="username #{loginController.username}"/>
+
+                        contextPath: #{request.contextPath}
+
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="Online">
+                    <p:panelGrid columns="4">
+
+                        <p:commandButton value="Load user Online" action="#{loginController.loadAllUser}"
+                                         update=":form:growl :form:combo :form:sessionDataTable"/>
+
+                        <p:selectOneMenu  id="combo" value="#{loginController.usernameSelected}">
+                            <f:selectItems value="#{loginController.usernameList}" />
+                        </p:selectOneMenu>
+                        <p:commandButton value="Terminar Ese usuario" action="#{loginController.killSessionByUserName()}"
+                                         update=":form:growl :form:combo"/>
+
+                        <p:commandButton value="Validate User"
+                                         action="#{loginController.validateAllSessions()}"
+                                         update=":form:growl"/>
+
+                        <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
+                        <p:commandButton value="Mensaje Prueba " action="#{loginController.saludar()}"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="Browser Sessions">
+                    <p:dataTable value="#{loginController.browserSessionsList}"
+                                 id="sessionDataTable"
+                                 var="item"
+                                 selectionMode="single" 
+                                 widgetVar="browserSessionsTable"
+                                 selection="#{loginController.browserSessionSelecction}"
+                                 filteredValue="#{loginController.browserSessionsFilterList}"
+                                 rowKey="#{item.id}"
+                                 rows="25" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="No hay registros" reflow="true">
+                        
+                         <p:ajax event="rowSelect" update=":form:sesionDetaill" oncomplete="PF('sesionDialog').show()" />
+                         
+ <f:facet name="header">
+                                    <p:outputPanel>
+                                        <div class="searchLoader">
+                                            <p:graphicImage  name="/img/search-loader.gif"/>
+                                        </div>
+                                        <input type="text" jsf:id="globalFilter" jsf:onkeyup="PF('browserSessionsTable').filter()" class="search" placeholder="Search"/>               
+                                    </p:outputPanel>
+                                </f:facet>
+                        <p:column headerText="id" filterBy="#{item.id}" sortBy="#{item.id}"  filterMatchMode="contains">
+                            <h:outputText value="#{item.id}" />
+                        </p:column>
+
+                        <p:column headerText="username" filterBy="#{item.username}" sortBy="#{item.username}"  filterMatchMode="contains">
+                            <h:outputText value="#{item.username}" />
+                        </p:column>
+                        <p:column headerText="browser" filterBy="#{item.browser}" sortBy="#{item.browser}"  filterMatchMode="contains">
+                            <h:outputText value="#{item.browser}" />
+                        </p:column>
+                        <p:column headerText="ipcliente" filterBy="#{item.ipcliente}" sortBy="#{item.ipcliente}"  >
+                            <h:outputText value="#{item.ipcliente}" />
+                        </p:column>
+                        <p:column headerText="time" filterBy="#{item.time}" sortBy="#{item.time}"  >
+                            <h:outputText value="#{item.time}" />
+                        </p:column>
                       
-                      <p:selectOneMenu  id="combo" value="#{loginController.usernameSelected}">
-                               <f:selectItems value="#{loginController.usernameList}" />
-                                  </p:selectOneMenu>
-                                <p:commandButton value="Terminar Ese usuario" action="#{loginController.killSessionByUserName()}"
-                                       update=":form:growl :form:combo"/>
-                               
-                                     <p:commandButton value="Validate User"
-                                                      action="#{loginController.validateAllSessions()}"
-                                       update=":form:growl"/>
-                                
-                                   <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
-                                   <p:commandButton value="Mensaje Prueba " action="#{loginController.saludar()}"/>
-                  </p:panelGrid>
-                 </p:panel>
-              
-              
-               <p:panel header="Otros">
-                  <p:panelGrid columns="3">
-                 
-                       <p:commandButton value="Mostrar Sessiones" action="#{loginController.showAllSessions()}"
-                                       update=":form:growl"/>
+
+                    </p:dataTable>
+                    
+                    
+                </p:panel>
+
+                <p:panel header="Otros">
+                    <p:panelGrid columns="3">
+
+                        <p:commandButton value="Mostrar Sessiones" action="#{loginController.showAllSessions()}"
+                                         update=":form:growl"/>
                         <p:commandButton value="Terminar Todas Sesiones" action="#{loginController.killAllSessions()}"
-                                       update=":form:growl"/>
-                     </p:panelGrid>
-                 </p:panel>  
-              
-          </h:form>
-          <h:form id="form2" rendered="#{!loginController.loggedIn}">
-              <p:panel header="Usuario no logeado">
-                  <p:link value="Home" outcome="index"/>
-                  
-              </p:panel>
-          </h:form>
-    </h:body>  
+                                         update=":form:growl"/>
+                    </p:panelGrid>
+                </p:panel>  
+                
+                 <p:dialog header="Session" widgetVar="sesionDialog"  width="450" height="450"
+                                      modal="true" showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+                                <p:outputPanel id="sesionDetaill" style="text-align:center;">
+                                    <p:panelGrid  columns="2" rendered="#{not empty loginController.browserSessionSelecction}" 
+                                                  layout="grid" styleClass="ui-panelgrid-blank">
+                                        <f:facet name="header">
+
+                                        </f:facet>
+
+                                        <h:outputText value="id" style="font-weight: bold"/>
+                                        <h:outputText value="#{loginController.browserSessionSelecction.id}" />
+
+                                        <h:outputText value="username" style="font-weight: bold"/>
+                                        <h:outputText value="#{loginController.browserSessionSelecction.username}" />
+                                        
+                                        <h:outputText value="browser" style="font-weight: bold"/>
+                                        <h:outputText value="#{loginController.browserSessionSelecction.browser}" />
+                                        
+                                        <h:outputText value="ipcliente" style="font-weight: bold"/>
+                                        <h:outputText value="#{loginController.browserSessionSelecction.ipcliente}" />
+                                        
+                                        <h:outputText value="time" style="font-weight: bold"/>
+                                        <h:outputText value="#{loginController.browserSessionSelecction.time}" />
+                                        
+                                        
+
+                                        <p:commandButton id="btn" value="Cancelar Sesion" icon="fa fa-edit Fs14 White"  style="max-width:150px;"
+                                                         title="Cancelar"
+                                                         update=":form:growl form:sessionDataTable"
+                                                         action="#{loginController.cancelSelectedSession(loginController.browserSessionSelecction)}"
+                                                         />
+
+
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </p:dialog>
+
+            </h:form>
+            <h:form id="form2" rendered="#{!loginController.loggedIn}">
+                <p:panel header="Usuario no logeado">
+                    <p:link value="Home" outcome="index"/>
+
+                </p:panel>
+            </h:form>
+        </h:body>  
     </f:view>
-    
+
 </html>
 
 
