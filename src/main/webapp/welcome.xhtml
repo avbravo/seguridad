@@ -13,16 +13,16 @@
             <h:form id="form">
                 <p:growl id="growl"/>
                 <p:panelGrid columns="2">
-                    <p:commandButton value="Salir" action="#{login.doLogout()}"/>
-                    Welcome #{login.username}
-                    Usuarios Online:
+                    <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
+                    Welcome #{loginController.username}
+        
                  
-                    <p:commandButton value="Saludo" action="#{login.saludar}" update=":form:growl"/>
+                    <p:commandButton value="Saludo" action="#{loginController.saludar}" update=":form:growl"/>
                 </p:panelGrid>
             </h:form>
             
         </f:view>
-        Hello from Facelets
+
     </h:body>
 </html>
 

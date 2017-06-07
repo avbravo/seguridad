@@ -12,6 +12,7 @@
     </h:head>
     <f:view>
         <h:body>
+         
             <h:form id="form" rendered="#{loginController.loggedIn}">
                 <p:messages autoUpdate="true" id="growl"/>
                 <p:panel header="Login">
@@ -19,7 +20,8 @@
                         <h:outputLabel value="username #{loginController.username}"/>
 
                         contextPath: #{request.contextPath}
-
+<p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+<p:outputLabel value="MaxInactive Interval #{facesContext.externalContext.sessionMaxInactiveInterval}"/>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Online">
@@ -27,17 +29,20 @@
 
                      
                         <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
-                        <p:commandButton value="Mensaje Prueba " action="#{loginController.saludar()}"/>
+                        <p:commandButton value="Mensaje Prueba " action="#{sessionController.saludar()}"/>
                     </p:panelGrid>
                 </p:panel>
-                <p:panel header="Browser Sessions">
-                    <p:dataTable value="#{loginController.browserSessionsList}"
+                <p:panel header="Browser Sessions" >
+
+
+
+                    <p:dataTable value="#{sessionController.browserSessionsList}"
                                  id="sessionDataTable"
                                  var="item"
                                  selectionMode="single" 
                                  widgetVar="browserSessionsTable"
-                                 selection="#{loginController.browserSessionSelecction}"
-                                 filteredValue="#{loginController.browserSessionsFilterList}"
+                                 selection="#{sessionController.browserSessionSelecction}"
+                                 filteredValue="#{sessionController.browserSessionsFilterList}"
                                  rowKey="#{item.id}"
                                  rows="25" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
@@ -45,14 +50,14 @@
                         
                          <p:ajax event="rowSelect" update=":form:sesionDetaill" oncomplete="PF('sesionDialog').show()" />
                          
- <f:facet name="header">
+<!-- <f:facet name="header">
                                     <p:outputPanel>
                                         <div class="searchLoader">
                                             <p:graphicImage  name="/img/search-loader.gif"/>
                                         </div>
                                         <input type="text" jsf:id="globalFilter" jsf:onkeyup="PF('browserSessionsTable').filter()" class="search" placeholder="Search"/>               
                                     </p:outputPanel>
-                                </f:facet>
+                                </f:facet>-->
                         <p:column headerText="id" filterBy="#{item.id}" sortBy="#{item.id}"  filterMatchMode="contains">
                             <h:outputText value="#{item.id}" />
                         </p:column>
@@ -68,6 +73,30 @@
                         </p:column>
                         <p:column headerText="time" filterBy="#{item.time}" sortBy="#{item.time}"  >
                             <h:outputText value="#{item.time}" />
+                         
+                        </p:column>
+
+
+<p:column headerText="Expiracion"   >
+                            <h:outputText value="#{sessionController.expiracion(item.session,item.session.maxInactiveInterval,item.session.lastAccessedTime - item.session.creationTime)}" />
+                        </p:column>
+<p:column headerText="Tiempo Restante"   >
+                            <h:outputText value="#{sessionController.tiempoRestante(item.session,item.session.maxInactiveInterval,item.session.lastAccessedTime - item.session.creationTime)}" />
+                        </p:column>
+<p:column headerText="Tiempo de acceso"   >
+                            <h:outputText value="#{sessionController.tiempoAcceso(item.session.lastAccessedTime - item.session.creationTime)}" />
+                        </p:column>
+
+                        <p:column headerText="creationTime" sortBy="#{item.session.creationTime}"  >
+                            <h:outputText value="#{item.session.creationTime}" />
+                        </p:column>
+                        <p:column headerText="lastAccessedTime}" sortBy="#{item.session.lastAccessedTime}"  >
+                            <h:outputText value="#{item.session.lastAccessedTime}" />
+                            <h:outputText value="#{sessionController.toHour(item.session.lastAccessedTime)}" />
+                        </p:column>
+                        <p:column headerText="Ultimo"   >
+                            
+                            <h:outputText value="#{sessionController.toHour(item.session.lastAccessedTime)}" />
                         </p:column>
                       
 
@@ -79,43 +108,44 @@
                 <p:panel header="Otros">
                     <p:panelGrid columns="3">
 
-                        <p:commandButton value="Mostrar Sessiones" action="#{loginController.showAllSessions()}"
-                                         update=":form:growl"/>
-                        <p:commandButton value="Terminar Todas Sesiones" action="#{loginController.killAllSessions()}"
-                                         update=":form:growl"/>
+                        <p:commandButton value="Mostrar Sessiones" action="#{sessionController.showAllSessions()}"
+                                         update=":form:growl form:sessionDataTable"/>
+                        <p:commandButton value="Terminar Todas Sesiones" action="#{sessionController.killAllSessions()}"
+                                         update=":form:growl form:sessionDataTable"/>
                     </p:panelGrid>
                 </p:panel>  
                 
                  <p:dialog header="Session" widgetVar="sesionDialog"  width="450" height="450"
                                       modal="true" showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
                                 <p:outputPanel id="sesionDetaill" style="text-align:center;">
-                                    <p:panelGrid  columns="2" rendered="#{not empty loginController.browserSessionSelecction}" 
+                                    <p:panelGrid  columns="2" rendered="#{not empty sessionController.browserSessionSelecction}" 
                                                   layout="grid" styleClass="ui-panelgrid-blank">
                                         <f:facet name="header">
 
                                         </f:facet>
 
                                         <h:outputText value="id" style="font-weight: bold"/>
-                                        <h:outputText value="#{loginController.browserSessionSelecction.id}" />
+                                        <h:outputText value="#{sessionController.browserSessionSelecction.id}" />
 
                                         <h:outputText value="username" style="font-weight: bold"/>
-                                        <h:outputText value="#{loginController.browserSessionSelecction.username}" />
+                                        <h:outputText value="#{sessionController.browserSessionSelecction.username}" />
                                         
                                         <h:outputText value="browser" style="font-weight: bold"/>
-                                        <h:outputText value="#{loginController.browserSessionSelecction.browser}" />
+                                        <h:outputText value="#{sessionController.browserSessionSelecction.browser}" />
                                         
                                         <h:outputText value="ipcliente" style="font-weight: bold"/>
-                                        <h:outputText value="#{loginController.browserSessionSelecction.ipcliente}" />
+                                        <h:outputText value="#{sessionController.browserSessionSelecction.ipcliente}" />
                                         
                                         <h:outputText value="time" style="font-weight: bold"/>
-                                        <h:outputText value="#{loginController.browserSessionSelecction.time}" />
+                                        <h:outputText value="#{sessionController.browserSessionSelecction.time}" />
                                         
                                         
 
                                         <p:commandButton id="btn" value="Cancelar Sesion" icon="fa fa-edit Fs14 White"  style="max-width:150px;"
                                                          title="Cancelar"
                                                          update=":form:growl form:sessionDataTable"
-                                                         action="#{loginController.cancelSelectedSession(loginController.browserSessionSelecction)}"
+                                                         oncomplete="PF('sesionDialog').hide()"
+                                                         action="#{sessionController.cancelSelectedSession(sessionController.browserSessionSelecction)}"
                                                          />
 
 

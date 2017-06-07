@@ -10,6 +10,8 @@
     </h:head>
     <f:view>
       <h:body>
+    
+
           <h:form id="form">
               <p:messages autoUpdate="true" id="growl"/>
               <p:panel header="Login">
@@ -18,12 +20,10 @@
                       <p:inputText value="#{loginController.username}"/>
                       <p:outputLabel value="Password"/>
                       <p:password value="#{loginController.password}"/>
-                      <p:commandButton value="Login" action="#{loginController.doLogin()}"
+                      <p:commandButton value="Login Admin" action="#{loginController.doLogin('admin')}"
                                        update ="growl"/>
-                      
-                     
-                     
-                     
+                      <p:commandButton value="Login Client" action="#{loginController.doLogin('welcome')}"
+                                       update ="growl"/>
                   </p:panelGrid>
               </p:panel>
 

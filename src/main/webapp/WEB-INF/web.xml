@@ -45,4 +45,23 @@
    <error-code>500</error-code>
    <location>/faces/500.xhtml</location>
 </error-page>-->
+<!-- <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>
+            org.primefaces.webapp.filter.FileUploadFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+     <servlet>
+          <servlet-name>Push Servlet</servlet-name>
+          <servlet-class>org.primefaces.push.PushServlet</servlet-class>
+</servlet>
+      <servlet-mapping>
+          <servlet-name>Push Servlet</servlet-name>
+          <url-pattern>/primepush/*</url-pattern>
+      </servlet-mapping>-->
+
 </web-app>
