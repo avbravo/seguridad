@@ -37,9 +37,9 @@ public class LoginController implements Serializable, SessionInterface {
     private Boolean loggedIn = false;
     
     private BrowserSession browserSessionSelecction = new BrowserSession();
-    private List<String> usernameList = new ArrayList<>();
-             List<BrowserSession> browserSessionsList = getBrowserSessionList();
-             List<BrowserSession> browserSessionsFilterList = getBrowserSessionList();
+
+             List<BrowserSession> browserSessionsList = new ArrayList<>();
+             List<BrowserSession> browserSessionsFilterList = new ArrayList<>();
     // <editor-fold defaultstate="collapsed" desc="get/set"> 
 
     public List<BrowserSession> getBrowserSessionsFilterList() {
@@ -86,14 +86,7 @@ public class LoginController implements Serializable, SessionInterface {
         this.usernameSelected = usernameSelected;
     }
 
-    public List<String> getUsernameList() {
-        usernameList = _getAllUser();
-        return usernameList;
-    }
-
-    public void setUsernameList(List<String> usernameList) {
-        this.usernameList = usernameList;
-    }
+    
 
     public Boolean getLoggedIn() {
         return loggedIn;
@@ -133,28 +126,22 @@ public class LoginController implements Serializable, SessionInterface {
 
     }
 
-    private void verifySesionLocal() {
+   @Override
+    public void verifySesionLocal() {
         try {
-//            System.out.println("...................................");
-//            System.out.println("......verifySesionLocal()() hora:" + JsfUtil.getTiempo());
+
             recoverSession = false;
+             usernameRecover="";
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession();
             if (session == null) {
-//                System.out.println(".............verifySesionLocal()()----> Session es null");
-            } else {
-//                System.out.println(".............verifySesionLocal()()----> Session No es null");
-                if (session.getAttribute("username") != null) {
-                   // session.invalidate();
 
+            } else {
+                if (session.getAttribute("username") != null) {
                     usernameRecover = session.getAttribute("username").toString();
-//                    System.out.println(".............verifySesionLocal()()-->username " + usernameRecover);
-//                    System.out.println(".............verifySesionLocal()()--> voy a pasarle el username");
-//
-//                    System.out.println(".............verifySesionLocal()()---> le pase el username");
-//                    
+//                   
                     recoverSession = true;
-                    //   usernameRecover=username;
+
                 } else {
                     System.out.println("verifySesionLocal()()--> no tiene username");
                 }
@@ -214,38 +201,28 @@ public class LoginController implements Serializable, SessionInterface {
 
     @Override
     public String showAllSessions() {
-        return _showAllSessions();
+         browserSessionsList = allBrowserSessionList();
+        return "";
     }
 
     @Override
     public String killAllSessions() {
-        _killAllSesion();
+       cancelAllSesion();
         return "";
     }
-//    public String showAllSessions() {
-//        try {
-//            System.out.println("Mostrando las sesiones");
-//            for (HttpSession h : SessionListener.getSessionList()) {
-//                System.out.println("----> voy a mostrar la sesion");
-//                System.out.println("h= "+h);
-//                System.out.println("id " + h.getId());
-//                
-//                JsfUtil.successMessage("id " + h.getId() + " username " + h.getAttribute("username") );
-//
-//            }
-//
-//            JsfUtil.successMessage("Sesiones mostradas");
-//        } catch (Exception e) {
-//            JsfUtil.errorMessage("showSessions() " + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }
 
+    
+    @Override
     public String cancelSelectedSession(BrowserSession browserSesssion){
         try {
+             if (username.equals(browserSesssion.getUsername())) {
+                JsfUtil.warningMessage("No se debe eliminar su propia sesion. Use la opcion salir");
+
+                return "";
+            }
           if(  inactiveSession(browserSesssion)){
               JsfUtil.successMessage("Se cancelo la sesion");
-              printBrowserSession();
+      browserSessionsList = allBrowserSessionList();
           }else{
               JsfUtil.warningMessage("No se cancelo la sesion");
           }
@@ -255,82 +232,11 @@ public class LoginController implements Serializable, SessionInterface {
         }
         return "";
     }
-    public String killSessionByUserName() {
-        try {
-            if (username.equals(usernameSelected)) {
-                JsfUtil.warningMessage("No se debe eliminar su propia sesion. Use la opcion salir");
 
-                return "";
-            }
-            if (killSesionByUserName(usernameSelected)) {
-                JsfUtil.successMessage("Se termino la sesion de" + usernameSelected);
-                loadAllUser();
-
-            } else {
-                JsfUtil.warningMessage("No se pudo terminar la sesion de " + usernameSelected);
-            }
-
-//            if(SessionListener.killSesionByUsername(usernameSelected)){
-//                JsfUtil.successMessage("Se termino la sesion de "+usernameSelected);
-//               
-//                 if(username.equals(usernameSelected)){
-//               doLogout();
-//            }else{
-//                    showUser();  
-//                 }
-//            }else{
-//                JsfUtil.warningMessage("No se pudo terminar la sesion de "+usernameSelected);
-//            }
-        } catch (Exception e) {
-            JsfUtil.errorMessage("killByUserName() " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-//    public String killAllSesion() {
-//        try {
-//            if (SessionListener.killAllSesion()) {
-//                JsfUtil.successMessage("Se eliminaron todas las sesiones");
-//            } else {
-//                JsfUtil.successMessage("(No) se eliminaron todas las sesiones");
-//            }
-//
-//        } catch (Exception e) {
-//            JsfUtil.errorMessage("recorrer() " + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }
-
-//    public String showUser() {
-//        try {
-//            if (SessionListener.getUsernameList().isEmpty()) {
-//                JsfUtil.warningMessage("No hay usuarios online registrados");
-//                return "";
-//            }
-////        
-//            usuariosList = SessionListener.getUsernameOnline();
-//        } catch (Exception e) {
-//            JsfUtil.errorMessage("showUser() " + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }
     @Override
     public String doLogout() {
         return logout("/seguridad/faces/index.xhtml?faces-redirect=true");
-//        Boolean loggedIn = false;
-//        try {
-//            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-//            if (session != null) {
-//                session.invalidate();
-//            }
-//            String url = ("/seguridad/faces/index.xhtml?faces-redirect=true");
-//            FacesContext fc = FacesContext.getCurrentInstance();
-//            ExternalContext ec = fc.getExternalContext();
-//            ec.redirect(url);
-//            return "/seguridad/faces/login.xhtml?faces-redirect=true";
-//        } catch (Exception e) {
-//            JsfUtil.errorMessage(e, "logout()");
-//        }
-//        return "/seguridad/faces/login.xhtml?faces-redirect=true";
+
     }
 
     public String saludar() {
@@ -343,48 +249,9 @@ public class LoginController implements Serializable, SessionInterface {
         return "";
     }
 
-//    public String validateAllUserInSesion(){
-//        try {
-//             SessionListener.validateUsernameWithSession();
-//        } catch (Exception e) {
-//            JsfUtil.errorMessage("validateUserInSesion() "+e.getLocalizedMessage());
-//        }
-//       
-//        return "";
-//    }
-// <editor-fold defaultstate="collapsed" desc="validateAllSessions()"> 
-    @Override
-    public String validateAllSessions() {
-        _validateAllSesion();
-        return "";
-    }
-// </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="showUser"> 
-    @Override
-    public String loadAllUser() {
-        usernameList = _getAllUser();
-        printBrowserSession();
-        return "";
-    }
-// </editor-fold>
+
 
     
-    public String printBrowserSession(){
-        try {
-           browserSessionsList = getBrowserSessionList();
-            for(BrowserSession b:browserSessionsList){
-                System.out.println("Sesiones ");
-                System.out.println("id: "+b.getId());
-                System.out.println("browser"+b.getBrowser());
-                System.out.println("ipcliente"+b.getIpcliente());
-                System.out.println("username"+b.getUsername());
-                System.out.println("time"+b.getTime());
-            }
-            
-        } catch (Exception e) {
-            JsfUtil.errorMessage("printBrowserSession() "+e.getLocalizedMessage());
-        }
-        return "";
-    }
+   
 }

@@ -25,19 +25,7 @@
                 <p:panel header="Online">
                     <p:panelGrid columns="4">
 
-                        <p:commandButton value="Load user Online" action="#{loginController.loadAllUser}"
-                                         update=":form:growl :form:combo :form:sessionDataTable"/>
-
-                        <p:selectOneMenu  id="combo" value="#{loginController.usernameSelected}">
-                            <f:selectItems value="#{loginController.usernameList}" />
-                        </p:selectOneMenu>
-                        <p:commandButton value="Terminar Ese usuario" action="#{loginController.killSessionByUserName()}"
-                                         update=":form:growl :form:combo"/>
-
-                        <p:commandButton value="Validate User"
-                                         action="#{loginController.validateAllSessions()}"
-                                         update=":form:growl"/>
-
+                     
                         <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
                         <p:commandButton value="Mensaje Prueba " action="#{loginController.saludar()}"/>
                     </p:panelGrid>
