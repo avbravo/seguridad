@@ -66,6 +66,7 @@ public class LoginController implements Serializable, SessionInterface {
              
              
     public List<BrowserSession> getBrowserSessionsList() {
+        browserSessionsList = allBrowserSessionList();
         return browserSessionsList;
     }
 
