@@ -25,13 +25,25 @@ import javax.servlet.http.HttpSession;
 @Named
 @ViewScoped
 public class SessionController implements Serializable, SessionInterface {
-
+ private static final long serialVersionUID = 1L;
+ 
+ private Integer segundosRefresh=5;
     @Inject
     LoginController loginController;
     private BrowserSession browserSessionSelecction = new BrowserSession();
     List<BrowserSession> browserSessionsList = new ArrayList<>();
     List<BrowserSession> browserSessionsFilterList = new ArrayList<>();
 
+    public Integer getSegundosRefresh() {
+        return segundosRefresh;
+    }
+
+    public void setSegundosRefresh(Integer segundosRefresh) {
+        this.segundosRefresh = segundosRefresh;
+    }
+
+    
+    
     public BrowserSession getBrowserSessionSelecction() {
         return browserSessionSelecction;
     }
@@ -66,6 +78,10 @@ public class SessionController implements Serializable, SessionInterface {
         try {
               browserSessionsList = allBrowserSessionList();
         browserSessionsFilterList = browserSessionsList;
+        if(browserSessionsList.isEmpty()){
+            JsfUtil.warningMessage("No hay sesiones registradas");
+        }
+            
         } catch (Exception e) {
             JsfUtil.errorMessage("showAllSessions() "+e.getLocalizedMessage());
         }

@@ -21,9 +21,9 @@
                       <p:outputLabel value="Password"/>
                       <p:password value="#{loginController.password}"/>
                       <p:commandButton value="Login Admin" action="#{loginController.doLogin('admin')}"
-                                       update ="growl"/>
+                                       update =":form:growl"/>
                       <p:commandButton value="Login Client" action="#{loginController.doLogin('welcome')}"
-                                       update ="growl"/>
+                                       update =":form:growl"/>
                   </p:panelGrid>
               </p:panel>
 

@@ -32,7 +32,7 @@ import org.primefaces.push.EventBusFactory;
 @Named
 @SessionScoped
 public class LoginController implements Serializable, SessionInterface {
-
+ private static final long serialVersionUID = 1L;
     String username;
     String password;
     String usernameSelected;
@@ -104,9 +104,10 @@ public class LoginController implements Serializable, SessionInterface {
 //                   
                     recoverSession = true;
 
-                } else {
-                    System.out.println("verifySesionLocal()()--> no tiene username");
-                }
+                } 
+//                else {
+//                    System.out.println("verifySesionLocal()()--> no tiene username");
+//                }
             }
         } catch (Exception e) {
             JsfUtil.errorMessage("verifySesionLocal() " + e.getLocalizedMessage());
@@ -129,7 +130,7 @@ public class LoginController implements Serializable, SessionInterface {
             verifySesionLocal();
             if (recoverSession) {
                 JsfUtil.warningDialog("Advertencia", "Cierre la otra pestaña o el navegador");
-                //return "";
+              //  return "";
             }
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession();
@@ -148,6 +149,8 @@ public class LoginController implements Serializable, SessionInterface {
             if (password.equals("demo")) {
                 JsfUtil.addParametersUserNameToSession("username");
                 session.setAttribute("username", username);
+                //indicar el tiempo de la sesion predeterminado 2100segundos
+                session.setMaxInactiveInterval(300);
                 addUsername(username, session);
 
                 loggedIn = true;

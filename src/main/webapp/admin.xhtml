@@ -30,10 +30,13 @@
                      
                         <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
                         <p:commandButton value="Mensaje Prueba " action="#{sessionController.saludar()}"/>
+                        <p:outputLabel value="Segundos Refresco"/>
+                        <p:inputText value="#{sessionController.segundosRefresh}"/>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Browser Sessions" >
 
+                    <p:poll interval="#{sessionController.segundosRefresh}" listener="#{sessionController.showAllSessions()}" update="sessionDataTable" />
 
 
                     <p:dataTable value="#{sessionController.browserSessionsList}"
@@ -92,12 +95,12 @@
                         </p:column>
                         <p:column headerText="lastAccessedTime}" sortBy="#{item.session.lastAccessedTime}"  >
                             <h:outputText value="#{item.session.lastAccessedTime}" />
-                            <h:outputText value="#{sessionController.toHour(item.session.lastAccessedTime)}" />
+                            
                         </p:column>
-                        <p:column headerText="Ultimo"   >
+<!--                        <p:column headerText="Ultimo"   >
                             
                             <h:outputText value="#{sessionController.toHour(item.session.lastAccessedTime)}" />
-                        </p:column>
+                        </p:column>-->
                       
 
                     </p:dataTable>

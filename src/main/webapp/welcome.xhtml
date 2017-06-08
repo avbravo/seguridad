@@ -7,10 +7,11 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
+          <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
     </h:head>
     <h:body>
         <f:view>
-            <h:form id="form">
+          <h:form id="form" rendered="#{loginController.loggedIn}">
                 <p:growl id="growl"/>
                 <p:panelGrid columns="2">
                     <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
@@ -19,6 +20,12 @@
                  
                     <p:commandButton value="Saludo" action="#{loginController.saludar}" update=":form:growl"/>
                 </p:panelGrid>
+            </h:form>
+            <h:form id="form2" rendered="#{!loginController.loggedIn}">
+                <p:panel header="Usuario no logeado">
+                    <p:link value="Home" outcome="index"/>
+
+                </p:panel>
             </h:form>
             
         </f:view>
