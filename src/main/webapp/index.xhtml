@@ -24,6 +24,18 @@
                                        update =":form:growl"/>
                       <p:commandButton value="Login Client" action="#{loginController.doLogin('welcome')}"
                                        update =":form:growl"/>
+                       <p:commandLink value="Send Token"
+                                     update=":form:growl"
+                                     action="#{loginController.sendToken()}"/>
+                     
+                  </p:panelGrid>
+              </p:panel>
+              <p:panel header="Token">
+                  <p:panelGrid columns="2">
+                      <p:outputLabel value="Token recibido email"/>
+                      <p:inputText value="#{loginController.mytoken}"/>
+                      <p:commandButton value="Entrar con Token" update=":form:growl"
+                                       action="#{loginController.loginWithToken()}"/>
                   </p:panelGrid>
               </p:panel>
 

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 public class SessionController implements Serializable, SessionInterface {
  private static final long serialVersionUID = 1L;
  
- private Integer segundosRefresh=5;
+ private Integer segundosRefresh=3;
     @Inject
     LoginController loginController;
     private BrowserSession browserSessionSelecction = new BrowserSession();

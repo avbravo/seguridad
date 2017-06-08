@@ -28,7 +28,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>avbravoutils</artifactId>
-            <version>0.8.3.2</version>
+            <version>0.8.3.3</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
