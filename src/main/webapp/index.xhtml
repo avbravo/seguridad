@@ -47,7 +47,7 @@
                        <p:commandLink value="Send Token to my Email"
                                      update=":form:growl"
                                      action="#{loginController.sendToken()}"/>
-                      <p:commandButton value="Entrar con Token" update=":form:growl"
+                      <p:commandButton value="Entrar con Token" update=":form:growl :form"
                                        action="#{loginController.destroyWithToken()}"/>
                   </p:panelGrid>
               </p:panel>

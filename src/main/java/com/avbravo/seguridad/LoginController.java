@@ -290,6 +290,7 @@ userwasLoged=false;
                         if(inactiveSessionByToken(token)){
                             JsfUtil.successMessage("Se inactivo la sesion para el usuario."+username +"  Intente ingresar ahora");
                             userwasLoged=false;
+                            
                             return "";
                         }else{
                             JsfUtil.warningMessage("No se puede inactivar la session para el token");

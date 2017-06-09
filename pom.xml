@@ -33,7 +33,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>avbravoutils</artifactId>
-            <version>0.8.3.4</version>
+            <version>0.8.3.5</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
