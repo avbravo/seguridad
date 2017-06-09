@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -33,6 +35,8 @@ public class SessionController implements Serializable, SessionInterface {
     private BrowserSession browserSessionSelecction = new BrowserSession();
     List<BrowserSession> browserSessionsList = new ArrayList<>();
     List<BrowserSession> browserSessionsFilterList = new ArrayList<>();
+
+    // <editor-fold defaultstate="collapsed" desc="setget"> 
 
     public Integer getSegundosRefresh() {
         return segundosRefresh;
@@ -66,13 +70,28 @@ public class SessionController implements Serializable, SessionInterface {
 
     public void setBrowserSessionsFilterList(List<BrowserSession> browserSessionsFilterList) {
         this.browserSessionsFilterList = browserSessionsFilterList;
-    }
+    }// </editor-fold>
 
     /**
      * Creates a new instance of SessionController
      */
     public SessionController() {
     }
+    
+      @PostConstruct
+    public void init() {
+
+showAllSessions();
+
+    }
+     @PreDestroy
+    public void destroy() {
+        System.out.println("...................................");
+        System.out.println("----===== destroy " + JsfUtil.getTiempo());
+        System.out.println("...................................");
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="showAllSessions"> 
 
     public String showAllSessions() {
         try {
@@ -87,9 +106,10 @@ public class SessionController implements Serializable, SessionInterface {
         }
       
         return "";
-    }
+    }// </editor-fold>
 
- 
+    // <editor-fold defaultstate="collapsed" desc="killAllSessions"> 
+
     public String killAllSessions() {
         try {
             if(cancelAllSesion()){
@@ -106,11 +126,11 @@ public class SessionController implements Serializable, SessionInterface {
         }
         
         return "";
-    }
+    }// </editor-fold>
 
 
     
-
+// <editor-fold defaultstate="collapsed" desc="cancelSelectedSession"> 
     public String cancelSelectedSession(BrowserSession browserSesssion) {
         try {
             if (loginController.getUsername().equals(browserSesssion.getUsername())) {
@@ -130,7 +150,7 @@ public class SessionController implements Serializable, SessionInterface {
             JsfUtil.errorMessage("cancelSession() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold>
     
     
      public String toHour(Long milisegundos) {
@@ -156,7 +176,8 @@ public class SessionController implements Serializable, SessionInterface {
         Date expiry = new Date();
         try {
             Integer limite = JsfUtil.milisegundosToSegundos(session.getCreationTime()) + session.getMaxInactiveInterval();
-            expiry = new Date(session.getLastAccessedTime() + session.getMaxInactiveInterval() * 1000);
+            //expiry = new Date(session.getLastAccessedTime() + session.getMaxInactiveInterval() * 1000);
+            expiry = new Date(session.getCreationTime() + session.getMaxInactiveInterval() * 1000);
 
             restante = inactivatePeriodo - JsfUtil.milisegundosToSegundos(milisegundos);
         } catch (Exception e) {

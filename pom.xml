@@ -4,7 +4,7 @@
 
     <groupId>com.avbravo</groupId>
     <artifactId>seguridad</artifactId>
-    <version>0.8.3.1</version>
+    <version>0.8.3.4</version>
     <packaging>war</packaging>
 
     <name>seguridad</name>
@@ -26,14 +26,14 @@
             <version>2.4.12</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>avbravoutils</artifactId>
-            <version>0.8.3.3</version>
-        </dependency>
-        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>avbravoutils</artifactId>
+            <version>0.8.3.4</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

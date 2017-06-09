@@ -74,33 +74,36 @@
                         <p:column headerText="ipcliente" filterBy="#{item.ipcliente}" sortBy="#{item.ipcliente}"  >
                             <h:outputText value="#{item.ipcliente}" />
                         </p:column>
-                        <p:column headerText="time" filterBy="#{item.time}" sortBy="#{item.time}"  >
-                            <h:outputText value="#{item.time}" />
-                         
-                        </p:column>
-                        <p:column headerText="token"   >
+ <p:column headerText="token"   >
                             <h:outputText value="#{item.token}" />
                          
                         </p:column>
 
+                        <p:column headerText="time" filterBy="#{item.time}" sortBy="#{item.time}"  >
+                            <h:outputText value="#{item.time}" />
+                         
+                        </p:column>
+                       
 
 <p:column headerText="Expiracion"   >
-                            <h:outputText value="#{sessionController.expiracion(item.session,item.session.maxInactiveInterval,item.session.lastAccessedTime - item.session.creationTime)}" />
+                            <h:outputText value="#{sessionController.expiracion(item.session,item.session.maxInactiveInterval,item.session.lastAccessedTime - item.session.creationTime)}" >
+                              
+                            </h:outputText>
                         </p:column>
-<p:column headerText="Tiempo Restante"   >
+<!--<p:column headerText="Tiempo Restante"   >
                             <h:outputText value="#{sessionController.tiempoRestante(item.session,item.session.maxInactiveInterval,item.session.lastAccessedTime - item.session.creationTime)}" />
-                        </p:column>
+                        </p:column>-->
 <p:column headerText="Tiempo de acceso"   >
                             <h:outputText value="#{sessionController.tiempoAcceso(item.session.lastAccessedTime - item.session.creationTime)}" />
                         </p:column>
 
-                        <p:column headerText="creationTime" sortBy="#{item.session.creationTime}"  >
+<!--                        <p:column headerText="creationTime" sortBy="#{item.session.creationTime}"  >
                             <h:outputText value="#{item.session.creationTime}" />
                         </p:column>
                         <p:column headerText="lastAccessedTime}" sortBy="#{item.session.lastAccessedTime}"  >
                             <h:outputText value="#{item.session.lastAccessedTime}" />
                             
-                        </p:column>
+                        </p:column>-->
 <!--                        <p:column headerText="Ultimo"   >
                             
                             <h:outputText value="#{sessionController.toHour(item.session.lastAccessedTime)}" />

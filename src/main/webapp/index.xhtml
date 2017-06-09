@@ -20,22 +20,35 @@
                       <p:inputText value="#{loginController.username}"/>
                       <p:outputLabel value="Password"/>
                       <p:password value="#{loginController.password}"/>
-                      <p:commandButton value="Login Admin" action="#{loginController.doLogin('admin')}"
-                                       update =":form:growl"/>
-                      <p:commandButton value="Login Client" action="#{loginController.doLogin('welcome')}"
-                                       update =":form:growl"/>
-                       <p:commandLink value="Send Token"
-                                     update=":form:growl"
-                                     action="#{loginController.sendToken()}"/>
+                      
+                        <p:selectOneMenu id="rol" disabled="false" 
+                                                     class="fullWidth required"
+                                                     caseSensitive="true"
+                                                     filter="true"
+                                                     value="#{loginController.rol}"
+                                                     requiredMessage="El rol no debe ser nulo" required="true">
+                                        <f:selectItem itemLabel="welcome" itemValue="welcome" />
+                                        <f:selectItem itemLabel="admin" itemValue="admin" />
+                        </p:selectOneMenu>
+                      <p:commandButton value="Login" action="#{loginController.doLogin()}"
+                                       update =":form:growl :form:panelToken :form"/>
+
+                  
                      
                   </p:panelGrid>
               </p:panel>
-              <p:panel header="Token">
-                  <p:panelGrid columns="2">
+                
+              <p:panel  header="Token" id="panelToken" rendered="#{loginController.userwasLoged}">
+                <p:panelGrid  columns="2" >
+                      
+                       
                       <p:outputLabel value="Token recibido email"/>
                       <p:inputText value="#{loginController.mytoken}"/>
+                       <p:commandLink value="Send Token to my Email"
+                                     update=":form:growl"
+                                     action="#{loginController.sendToken()}"/>
                       <p:commandButton value="Entrar con Token" update=":form:growl"
-                                       action="#{loginController.loginWithToken()}"/>
+                                       action="#{loginController.destroyWithToken()}"/>
                   </p:panelGrid>
               </p:panel>
 

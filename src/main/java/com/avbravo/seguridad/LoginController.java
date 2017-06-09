@@ -29,14 +29,26 @@ public class LoginController implements Serializable, SessionInterface {
     private static final long serialVersionUID = 1L;
     String username;
     String password;
+    String rol="client";
     String usernameSelected;
     Boolean recoverSession = false;
+    Boolean userwasLoged=false;
     String usernameRecover = "";
     String mytoken = "";
 
     private Boolean loggedIn = false;
 
     // <editor-fold defaultstate="collapsed" desc="get/set"> 
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+    
+    
     public String getMytoken() {
         return mytoken;
     }
@@ -77,6 +89,16 @@ public class LoginController implements Serializable, SessionInterface {
         this.password = password;
     }
 
+    public Boolean getUserwasLoged() {
+        return userwasLoged;
+    }
+
+    public void setUserwasLoged(Boolean userwasLoged) {
+        this.userwasLoged = userwasLoged;
+    }
+    
+    
+
     // </editor-fold>
     /**
      * Creates a new instance of Login
@@ -88,6 +110,8 @@ public class LoginController implements Serializable, SessionInterface {
     public void init() {
 
         loggedIn = false;
+        recoverSession=false;
+        userwasLoged=false;
 
     }
 
@@ -124,9 +148,9 @@ public class LoginController implements Serializable, SessionInterface {
         System.out.println("...................................");
     }
 
-    public String doLogin(String type) {
+    public String doLogin() {
         try {
-
+userwasLoged=false;
             loggedIn = false;
             verifySesionLocal();
             if (recoverSession) {
@@ -141,6 +165,7 @@ public class LoginController implements Serializable, SessionInterface {
             } else {
 
                 if (isUserLogged(username)) {
+                    userwasLoged=true;
                     JsfUtil.warningMessage("(Existe) un usuario logeado en este momento con ese username " + username);
                     return "";
                 }
@@ -155,12 +180,12 @@ public class LoginController implements Serializable, SessionInterface {
 
                 session.setAttribute("token", token);
                 //indicar el tiempo de la sesion predeterminado 2100segundos
-                session.setMaxInactiveInterval(300);
+                session.setMaxInactiveInterval(2100);
 
                 addUsername(username, session, token);
 
                 loggedIn = true;
-                return type;
+                return rol;
                 //return "admin";
             } else {
                 JsfUtil.warningMessage("Usuario no valido");
@@ -253,7 +278,7 @@ public class LoginController implements Serializable, SessionInterface {
     }
 
 // <editor-fold defaultstate="collapsed" desc="nombre_metodo"> 
-    public String loginWithToken() {
+    public String destroyWithToken() {
         try {
             if (isUserValid()) {
                 HttpSession httpSession = getSessionOfUsername(username);
@@ -261,9 +286,10 @@ public class LoginController implements Serializable, SessionInterface {
                 if (httpSession != null) {
                     String token = httpSession.getAttribute("token").toString();
                     if(mytoken.equals(token)){
-                        System.out.println("voy a inactivar el token");
+                        System.out.println("voy a inactivar el token "+token);
                         if(inactiveSessionByToken(token)){
-                            JsfUtil.successMessage("Se inactivo la sesion para el usuario. Intente ingresar ahora");
+                            JsfUtil.successMessage("Se inactivo la sesion para el usuario."+username +"  Intente ingresar ahora");
+                            userwasLoged=false;
                             return "";
                         }else{
                             JsfUtil.warningMessage("No se puede inactivar la session para el token");
