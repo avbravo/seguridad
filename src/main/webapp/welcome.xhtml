@@ -3,33 +3,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-          
+
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
-          <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
+        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
     </h:head>
-    <h:body>
-        <f:view>
-          <h:form id="form" rendered="#{loginController.loggedIn}">
-                <p:growl id="growl"/>
-                <p:panelGrid columns="2">
-                    <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
-                    Welcome #{loginController.username}
-        
+   <h:body>
+       <f:view>
+           <h:form id="form" rendered="#{loginController.loggedIn}">
+             <p:messages autoUpdate="true" id="growl"/>
+           <p:panel header="Bienvenido">
+               <p:panelGrid columns="2">
+                   Welcome #{loginController.username}
+                 <p:commandButton value="Saludo" action="#{loginController.saludar}" update=":form:growl"/>
                  
-                    <p:commandButton value="Saludo" action="#{loginController.saludar}" update=":form:growl"/>
-                </p:panelGrid>
-            </h:form>
-            <h:form id="form2" rendered="#{!loginController.loggedIn}">
+                  <f:facet name="footer">
+                                <p:commandButton value="Salir de la sesion" action="#{loginController.doLogout()}"/>
+                            </f:facet>
+               </p:panelGrid>
+               
+           </p:panel>
+           
+                   </h:form>  
+<h:form id="form2" rendered="#{!loginController.loggedIn}">
                 <p:panel header="Usuario no logeado">
                     <p:link value="Home" outcome="index"/>
 
                 </p:panel>
             </h:form>
-            
-        </f:view>
+           
+       </f:view>
+<!--       <script>
+window.onbeforeunload = function (e) {
+// Your logic to prepare for 'Stay on this Page' goes here 
 
+    return "Please click 'Stay on this Page' and we will give you candy";
+};
+</script>-->
     </h:body>
 </html>
 

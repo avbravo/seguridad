@@ -7,7 +7,6 @@ package com.avbravo.seguridad;
 
 import com.avbravo.avbravoutils.JsfUtil;
 import com.avbravo.avbravoutils.security.BrowserSession;
-import com.avbravo.avbravoutils.security.SessionInterface;
 import com.avbravo.avbravoutils.security.SessionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import com.avbravo.avbravoutils.security.SecurityInterface;
 
 /**
  *
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  */
 @Named
 @ViewScoped
-public class SessionController implements Serializable, SessionInterface {
+public class SessionController implements Serializable, SecurityInterface {
  private static final long serialVersionUID = 1L;
  
  private Integer segundosRefresh=3;

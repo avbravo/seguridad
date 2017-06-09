@@ -40,18 +40,32 @@
                 
               <p:panel  header="Token" id="panelToken" rendered="#{loginController.userwasLoged}">
                 <p:panelGrid  columns="2" >
-                      
-                       
-                      <p:outputLabel value="Token recibido email"/>
-                      <p:inputText value="#{loginController.mytoken}"/>
-                       <p:commandLink value="Send Token to my Email"
-                                     update=":form:growl"
+                    <p:inputText value="#{loginController.myemail}"
+                                 placeholder="My Email"
+                                 rendered="#{!loginController.tokenwassend}"/>
+                        <p:commandButton value="Send Token to my Email"
+                                     update=":form:growl :form:panelToken"
+                                     rendered="#{!loginController.tokenwassend}"
                                      action="#{loginController.sendToken()}"/>
-                      <p:commandButton value="Entrar con Token" update=":form:growl :form"
+                     
+                      <p:outputLabel value="Token recibido email" rendered="#{loginController.tokenwassend}"/>
+                      <p:inputText rendered="#{loginController.tokenwassend}" value="#{loginController.mytoken}"/>
+                      
+                      <p:commandButton value="Invalidar Sesion por Token" update=":form :form:growl :form:panelToken"
+                                       rendered="#{loginController.tokenwassend}"
                                        action="#{loginController.destroyWithToken()}"/>
                   </p:panelGrid>
               </p:panel>
-
+              <p:confirmDialog widgetVar="sessionDialog" closable="false" global="true" showEffect="fade" hideEffect="fade"
+                  message="Hay una sesion creada en este navegador se procedera a cerrarla.">
+     <p:commandButton value="Cerrar" oncomplete="PF('sessionDialog').hide();" 
+          update=":form" styleClass="ui-confirmdialog-yes"
+              action="#{loginController.invalidarActual()}" />
+<!--     <p:commandButton value="Cancel"   onclick="PF('sessionDialog').hide();" 
+                      styleClass="ui-confirmdialog-no"/> -->
+<!--        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />-->
+    </p:confirmDialog>
           </h:form>
     </h:body>  
     </f:view>
