@@ -36,13 +36,12 @@ public class LoginController implements Serializable, SecurityInterface {
     Boolean userwasLoged = false;
     Boolean tokenwassend = false;
     String usernameRecover = "";
-    String myemail="@gmail.com";
+    String myemail = "@gmail.com";
     String mytoken = "";
 
     private Boolean loggedIn = false;
 
     // <editor-fold defaultstate="collapsed" desc="get/set"> 
-
     public String getMyemail() {
         return myemail;
     }
@@ -50,8 +49,7 @@ public class LoginController implements Serializable, SecurityInterface {
     public void setMyemail(String myemail) {
         this.myemail = myemail;
     }
-    
-    
+
     public Boolean getTokenwassend() {
         return tokenwassend;
     }
@@ -133,7 +131,6 @@ public class LoginController implements Serializable, SecurityInterface {
 
     }
 
-
     @PreDestroy
     public void destroy() {
 
@@ -151,9 +148,9 @@ public class LoginController implements Serializable, SecurityInterface {
             recoverSession = !usernameRecover.equals("");
 
             if (recoverSession) {
-                // JsfUtil.warningDialog("Advertencia", "Cierre la otra pestaña o el navegador");
+
                 RequestContext.getCurrentInstance().execute("PF('sessionDialog').show();");
-//session.invalidate();
+
                 return "";
             }
 
@@ -170,8 +167,7 @@ public class LoginController implements Serializable, SecurityInterface {
             }
             if (isUserValid()) {
 
-//saveUserInSession(username, 2100);
-saveUserInSession(username, 60);
+                saveUserInSession(username, 2100);
 
                 loggedIn = true;
                 return rol;
@@ -218,10 +214,7 @@ saveUserInSession(username, 60);
 
     }
 
-
-    
 // <editor-fold defaultstate="collapsed" desc="sendToken()"> 
-
     public String sendToken() {
         try {
 
@@ -230,11 +223,11 @@ saveUserInSession(username, 60);
 //            }
             ManagerEmail managerEmail = new ManagerEmail();
             String token = getTokenOfUsername(username);
-            if(!token.equals("")){
+            if (!token.equals("")) {
 
-                String texto = "Token para iniciar sesion: " + token + "\r\n "+ "Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token";
+                String texto = "Token para iniciar sesion: " + token + "\r\n " + "Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token";
                 if (managerEmail.send(myemail, "Token de seguridad", texto, "aristides.netbeans@gmail.com", "coxip180denver$")) {
-                    JsfUtil.successMessage("Se envio el token a su correo "+myemail+ "");
+                    JsfUtil.successMessage("Se envio el token a su correo " + myemail + "");
                     tokenwassend = true;
                 } else {
                     JsfUtil.warningMessage("No se pudo enviar el email con el token");
@@ -248,10 +241,6 @@ saveUserInSession(username, 60);
         }
         return "";
     }// </editor-fold>
-    
-    
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="destroyWithToken()"> 
     public String destroyWithToken() {
@@ -275,11 +264,12 @@ saveUserInSession(username, 60);
     }
 // <editor-fold defaultstate="collapsed" desc="invalidarActual()"> 
 // </editor-fold>
+
     public String invalidarActual() {
         try {
-            if(invalidateMySession()){
+            if (invalidateMySession()) {
                 JsfUtil.successMessage("Sesion actual invalidada exitosamente");
-            }else{
+            } else {
                 JsfUtil.warningMessage("No se pudo invalidar la sesion actual");
             }
 
