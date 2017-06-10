@@ -169,19 +169,9 @@ public class LoginController implements Serializable, SecurityInterface {
 
             }
             if (isUserValid()) {
-                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                HttpSession session = request.getSession();
-//                JsfUtil.addParametersUserNameToSession("username");
-                session.setAttribute("username", username);
-                String token = JsfUtil.getUUID();
-                token = token.substring(0, 6);
 
-                session.setAttribute("token", token);
-                //indicar el tiempo de la sesion predeterminado 2100segundos
-           session.setMaxInactiveInterval(2100);
-           
-
-                addUsername(username, session, token);
+//saveUserInSession(username, 2100);
+saveUserInSession(username, 60);
 
                 loggedIn = true;
                 return rol;
@@ -228,38 +218,7 @@ public class LoginController implements Serializable, SecurityInterface {
 
     }
 
-// <editor-fold defaultstate="collapsed" desc="sendToken()"> 
-//
-//    public String sendToken() {
-//        try {
-//
-////            if(!myemail.equals("emailusuario")){
-////                //no es el email del usuario
-////            }
-//            ManagerEmail managerEmail = new ManagerEmail();
-//
-//            HttpSession httpSession = getSessionOfUsername(username);
-//
-//            if (httpSession != null) {
-//
-//                String token = httpSession.getAttribute("token").toString();
-//                String texto = "Token para iniciar sesion: " + token + "\r\n "+ "Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token";
-//                if (managerEmail.send(myemail, "Token de seguridad", texto, "aristides.netbeans@gmail.com", "coxip180denver$")) {
-//                    JsfUtil.successMessage("Se envio el token a su correo "+myemail+ "");
-//                    tokenwassend = true;
-//                } else {
-//                    JsfUtil.warningMessage("No se pudo enviar el email con el token");
-//                }
-//            } else {
-//                JsfUtil.warningMessage("No se pudo localizar una sesion activa para el usuario " + username);
-//            }
-//
-//        } catch (Exception e) {
-//            JsfUtil.errorMessage("sendToke() " + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }// </editor-fold>
-//    
+
     
 // <editor-fold defaultstate="collapsed" desc="sendToken()"> 
 
@@ -285,7 +244,7 @@ public class LoginController implements Serializable, SecurityInterface {
             }
 
         } catch (Exception e) {
-            JsfUtil.errorMessage("sendToke() " + e.getLocalizedMessage());
+            JsfUtil.errorMessage("sendToken() " + e.getLocalizedMessage());
         }
         return "";
     }// </editor-fold>

@@ -22,6 +22,7 @@
                         contextPath: #{request.contextPath}
 <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
 <p:outputLabel value="MaxInactive Interval #{facesContext.externalContext.sessionMaxInactiveInterval}"/>
+
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Online">
@@ -79,6 +80,10 @@
                          
                         </p:column>
 
+                        <p:column headerText="time creation" filterBy="#{item.time}" sortBy="#{item.time}"  >
+                            <h:outputText value="#{item.time}" />
+                         
+                        </p:column>
                         <p:column headerText="time creation" filterBy="#{item.time}" sortBy="#{item.time}"  >
                             <h:outputText value="#{item.time}" />
                          
