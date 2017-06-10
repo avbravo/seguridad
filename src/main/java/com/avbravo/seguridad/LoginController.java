@@ -228,8 +228,41 @@ public class LoginController implements Serializable, SecurityInterface {
 
     }
 
-// <editor-fold defaultstate="collapsed" desc="nombre_metodo"> 
-// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="sendToken()"> 
+//
+//    public String sendToken() {
+//        try {
+//
+////            if(!myemail.equals("emailusuario")){
+////                //no es el email del usuario
+////            }
+//            ManagerEmail managerEmail = new ManagerEmail();
+//
+//            HttpSession httpSession = getSessionOfUsername(username);
+//
+//            if (httpSession != null) {
+//
+//                String token = httpSession.getAttribute("token").toString();
+//                String texto = "Token para iniciar sesion: " + token + "\r\n "+ "Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token";
+//                if (managerEmail.send(myemail, "Token de seguridad", texto, "aristides.netbeans@gmail.com", "coxip180denver$")) {
+//                    JsfUtil.successMessage("Se envio el token a su correo "+myemail+ "");
+//                    tokenwassend = true;
+//                } else {
+//                    JsfUtil.warningMessage("No se pudo enviar el email con el token");
+//                }
+//            } else {
+//                JsfUtil.warningMessage("No se pudo localizar una sesion activa para el usuario " + username);
+//            }
+//
+//        } catch (Exception e) {
+//            JsfUtil.errorMessage("sendToke() " + e.getLocalizedMessage());
+//        }
+//        return "";
+//    }// </editor-fold>
+//    
+    
+// <editor-fold defaultstate="collapsed" desc="sendToken()"> 
+
     public String sendToken() {
         try {
 
@@ -237,12 +270,9 @@ public class LoginController implements Serializable, SecurityInterface {
 //                //no es el email del usuario
 //            }
             ManagerEmail managerEmail = new ManagerEmail();
+            String token = getTokenOfUsername(username);
+            if(!token.equals("")){
 
-            HttpSession httpSession = getSessionOfUsername(username);
-
-            if (httpSession != null) {
-
-                String token = httpSession.getAttribute("token").toString();
                 String texto = "Token para iniciar sesion: " + token + "\r\n "+ "Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token";
                 if (managerEmail.send(myemail, "Token de seguridad", texto, "aristides.netbeans@gmail.com", "coxip180denver$")) {
                     JsfUtil.successMessage("Se envio el token a su correo "+myemail+ "");
@@ -251,14 +281,18 @@ public class LoginController implements Serializable, SecurityInterface {
                     JsfUtil.warningMessage("No se pudo enviar el email con el token");
                 }
             } else {
-                JsfUtil.warningMessage("No se pudo localizar una sesion activa para el usuario " + username);
+                JsfUtil.warningMessage("No hay token asignado al usuario:  " + username);
             }
 
         } catch (Exception e) {
             JsfUtil.errorMessage("sendToke() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold>
+    
+    
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="destroyWithToken()"> 
     public String destroyWithToken() {
@@ -289,10 +323,7 @@ public class LoginController implements Serializable, SecurityInterface {
             }else{
                 JsfUtil.warningMessage("No se pudo invalidar la sesion actual");
             }
-//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            HttpSession session = request.getSession();
-//            session.invalidate();
-//            JsfUtil.successMessage("Sesion actual invalidada exitosamente");
+
         } catch (Exception e) {
             JsfUtil.successMessage("invalidarActual() " + e.getLocalizedMessage());
         }
