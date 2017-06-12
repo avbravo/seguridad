@@ -13,9 +13,6 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import com.avbravo.avbravoutils.security.SecurityInterface;
 import org.primefaces.context.RequestContext;
 
@@ -135,6 +132,7 @@ public class LoginController implements Serializable, SecurityInterface {
     public void destroy() {
 
     }
+// <editor-fold defaultstate="collapsed" desc="doLogin"> 
 
     public String doLogin() {
         try {
@@ -143,7 +141,6 @@ public class LoginController implements Serializable, SecurityInterface {
             loggedIn = false;
             //aqui
 
-            //  verifySesionLocal();
             usernameRecover = getUsernameRecoveryOfSession();
             recoverSession = !usernameRecover.equals("");
 
@@ -179,7 +176,7 @@ public class LoginController implements Serializable, SecurityInterface {
             JsfUtil.errorMessage("doLogin() " + ex.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="isUserValid"> 
     /**
@@ -208,11 +205,12 @@ public class LoginController implements Serializable, SecurityInterface {
         }
         return isvalid;
     }// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="doLogout"> 
 
     public String doLogout() {
         return logout("/seguridad/faces/index.xhtml?faces-redirect=true");
 
-    }
+    }// </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="sendToken()"> 
     public String sendToken() {
@@ -263,7 +261,7 @@ public class LoginController implements Serializable, SecurityInterface {
         return "";
     }
 // <editor-fold defaultstate="collapsed" desc="invalidarActual()"> 
-// </editor-fold>
+
 
     public String invalidarActual() {
         try {
@@ -277,5 +275,5 @@ public class LoginController implements Serializable, SecurityInterface {
             JsfUtil.successMessage("invalidarActual() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold>
 }

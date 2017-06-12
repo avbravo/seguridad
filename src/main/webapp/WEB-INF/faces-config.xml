@@ -3,10 +3,9 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
- <application>
-<!--       <resource-handler>net.bootsfaces.render.UnmappedResourceHandler</resource-handler>-->
-<factory>
-    <exception-handler-factory>com.avbravo.avbravoutils.exceptions.MyExceptionHandlerFactory</exception-handler-factory>
-</factory>
-   </application>
+    <application>
+        <factory>
+            <exception-handler-factory>com.avbravo.avbravoutils.exceptions.MyExceptionHandlerFactory</exception-handler-factory>
+        </factory>
+    </application>
 </faces-config>

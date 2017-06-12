@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
-        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/expirada.xhtml"/>
+        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/viewExpiredException.xhtml"/>
     </h:head>
    <h:body>
        <f:view>
@@ -34,13 +34,7 @@
             </h:form>
            
        </f:view>
-<!--       <script>
-window.onbeforeunload = function (e) {
-// Your logic to prepare for 'Stay on this Page' goes here 
 
-    return "Please click 'Stay on this Page' and we will give you candy";
-};
-</script>-->
     </h:body>
 </html>
 

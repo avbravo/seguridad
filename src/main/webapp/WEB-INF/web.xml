@@ -21,51 +21,10 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    <!--    <listener>
-        <listener-class>com.avbravo.seguridad.SessionListener</listener-class>
-    </listener>-->
-    <!--Probar esto-->
-<!--    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-</context-param>-->
-<!--    <error-page>
-        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/expirada.xhtml</location>
-    </error-page>-->
+   
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/expirada.xhtml</location>
+        <location>/viewExpiredException.xhtml</location>
     </error-page>
-<!--    <error-page>
-   <error-code>404</error-code>
-   <location>/faces/404.xhtml</location>
-</error-page>
-<error-page>
-   <error-code>500</error-code>
-   <location>/faces/500.xhtml</location>
-</error-page>-->
-<!-- <filter>
-        <filter-name>PrimeFaces FileUpload Filter</filter-name>
-        <filter-class>
-            org.primefaces.webapp.filter.FileUploadFilter
-        </filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>PrimeFaces FileUpload Filter</filter-name>
-        <servlet-name>Faces Servlet</servlet-name>
-    </filter-mapping>
-     <servlet>
-          <servlet-name>Push Servlet</servlet-name>
-          <servlet-class>org.primefaces.push.PushServlet</servlet-class>
-</servlet>
-      <servlet-mapping>
-          <servlet-name>Push Servlet</servlet-name>
-          <url-pattern>/primepush/*</url-pattern>
-      </servlet-mapping>-->
-<!--<context-param>
-   <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
-   <param-value>true</param-value>
-</context-param>-->
 
 </web-app>

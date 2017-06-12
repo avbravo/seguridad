@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package com.avbravo.seguridad;
+// <editor-fold defaultstate="collapsed" desc="import"> 
 
 import com.avbravo.avbravoutils.JsfUtil;
 import com.avbravo.avbravoutils.security.BrowserSession;
-import com.avbravo.avbravoutils.security.SessionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +19,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import com.avbravo.avbravoutils.security.SecurityInterface;
-
+// </editor-fold>
 /**
  *
  * @author avbravo
@@ -27,17 +27,18 @@ import com.avbravo.avbravoutils.security.SecurityInterface;
 @Named
 @ViewScoped
 public class SessionController implements Serializable, SecurityInterface {
- private static final long serialVersionUID = 1L;
- 
- private Integer segundosRefresh=3;
+
+    private static final long serialVersionUID = 1L;
+// <editor-fold defaultstate="collapsed" desc="atributos"> 
+
+    private Integer segundosRefresh = 3;
     @Inject
     LoginController loginController;
     private BrowserSession browserSessionSelecction = new BrowserSession();
     List<BrowserSession> browserSessionsList = new ArrayList<>();
     List<BrowserSession> browserSessionsFilterList = new ArrayList<>();
-
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="setget"> 
-
     public Integer getSegundosRefresh() {
         return segundosRefresh;
     }
@@ -46,8 +47,6 @@ public class SessionController implements Serializable, SecurityInterface {
         this.segundosRefresh = segundosRefresh;
     }
 
-    
-    
     public BrowserSession getBrowserSessionSelecction() {
         return browserSessionSelecction;
     }
@@ -77,59 +76,56 @@ public class SessionController implements Serializable, SecurityInterface {
      */
     public SessionController() {
     }
-    
-      @PostConstruct
+
+    // <editor-fold defaultstate="collapsed" desc="init"> 
+
+    @PostConstruct
     public void init() {
 
-showAllSessions();
+        showAllSessions();
 
     }
-     @PreDestroy
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="destroy"> 
+    @PreDestroy
     public void destroy() {
-        System.out.println("...................................");
-        System.out.println("----===== destroy " + JsfUtil.getTiempo());
-        System.out.println("...................................");
-    }
+
+    }// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="showAllSessions"> 
-
     public String showAllSessions() {
         try {
-              browserSessionsList = allBrowserSessionList();
-        browserSessionsFilterList = browserSessionsList;
-        if(browserSessionsList.isEmpty()){
-            JsfUtil.warningMessage("No hay sesiones registradas");
-        }
-            
+            browserSessionsList = allBrowserSessionList();
+            browserSessionsFilterList = browserSessionsList;
+            if (browserSessionsList.isEmpty()) {
+                JsfUtil.warningMessage("No hay sesiones registradas");
+            }
+
         } catch (Exception e) {
-            JsfUtil.errorMessage("showAllSessions() "+e.getLocalizedMessage());
+            JsfUtil.errorMessage("showAllSessions() " + e.getLocalizedMessage());
         }
-      
+
         return "";
     }// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="killAllSessions"> 
-
     public String killAllSessions() {
         try {
-            if(cancelAllSesion()){
-                   showAllSessions();
+            if (cancelAllSesion()) {
+                showAllSessions();
                 JsfUtil.successMessage("Se eliminaron todas las sesiones");
-       
+
             } else {
                 JsfUtil.successMessage("(No) se eliminaron todas las sesiones");
             }
-             
-            
+
         } catch (Exception e) {
-            JsfUtil.errorMessage("KillAllSessions() "+e.getLocalizedMessage());
+            JsfUtil.errorMessage("KillAllSessions() " + e.getLocalizedMessage());
         }
-        
+
         return "";
     }// </editor-fold>
 
-
-    
 // <editor-fold defaultstate="collapsed" desc="cancelSelectedSession"> 
     public String cancelSelectedSession(BrowserSession browserSesssion) {
         try {
@@ -151,51 +147,41 @@ showAllSessions();
         }
         return "";
     }// </editor-fold>
-    
-    
-     public String toHour(Long milisegundos) {
-        return JsfUtil.milisegundosToTiempoString(milisegundos);
-    }
 
-  
-    public String tiempoRestante(HttpSession session, Integer inactivatePeriodo, Long milisegundos) {
-        Integer restante = 0;
+    // <editor-fold defaultstate="collapsed" desc="expiracion"> 
+    public Date expiracion(HttpSession session) {
+        return getDateTiemExpiration(session);
+    }
+// </editor-fold>
+    public Integer segundosRestantesParaInactividad(HttpSession session) {
+        
+        return getSecondsForInactivate(session);
+    }// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="tiempoAcceso"> 
+
+    public String timeOfConnection(HttpSession session) {
         try {
-            Integer limite = JsfUtil.milisegundosToSegundos(session.getCreationTime()) + session.getMaxInactiveInterval();
-            Date expiry = new Date(session.getLastAccessedTime() - session.getMaxInactiveInterval() * 1000);
-
-            restante = inactivatePeriodo - JsfUtil.milisegundosToSegundos(milisegundos);
+            System.out.println("----------------------------------------");
+            System.out.println("timeOfConnection() ");
+            System.out.println("session.id "+session.getId());
+            System.out.println("getMiliSecondsOfConnection(session) "+getMiliSecondsOfConnection(session));
+             return JsfUtil.milisegundosToTiempoString(getMiliSecondsOfConnection(session));
         } catch (Exception e) {
-            JsfUtil.errorMessage("tiempoRestante() " + e.getLocalizedMessage());
+            JsfUtil.errorMessage("timeOfConecction() "+e.getLocalizedMessage());
         }
-        return JsfUtil.segundosToHoraString(restante);
+       return "";
     }
+    // </editor-fold>
+public String lastConnection(HttpSession session){
+    //return JsfUtil.milisegundosToTiempoString(session.getLastAccessedTime());
+return String.valueOf(session.getLastAccessedTime());
 
-    public Date expiracion(HttpSession session, Integer inactivatePeriodo, Long milisegundos) {
-        Integer restante = 0;
-        Date expiry = new Date();
-        try {
-            Integer limite = JsfUtil.milisegundosToSegundos(session.getCreationTime()) + session.getMaxInactiveInterval();
-            //expiry = new Date(session.getLastAccessedTime() + session.getMaxInactiveInterval() * 1000);
-            expiry = new Date(session.getCreationTime() + session.getMaxInactiveInterval() * 1000);
-
-            restante = inactivatePeriodo - JsfUtil.milisegundosToSegundos(milisegundos);
-        } catch (Exception e) {
-            JsfUtil.errorMessage("tiempoRestante() " + e.getLocalizedMessage());
-        }
-        return expiry;
-    }
-
-    public String tiempoAcceso(Long milisegundos) {
-        return JsfUtil.milisegundosToTiempoString(milisegundos);
-    }
-
-    
-    
+}
+// <editor-fold defaultstate="collapsed" desc="saludar"> 
     public String saludar() {
         try {
 
-            JsfUtil.successMessage("Hola " + loginController.getUsername()+ " a las " + JsfUtil.getTiempo());
+            JsfUtil.successMessage("Hola " + loginController.getUsername() + " a las " + JsfUtil.getTiempo());
             browserSessionsList = allBrowserSessionList();
             browserSessionsFilterList = browserSessionsList;
         } catch (Exception e) {
@@ -203,4 +189,5 @@ showAllSessions();
         }
         return "";
     }
+    // </editor-fold>
 }

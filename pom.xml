@@ -30,10 +30,15 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+<!--        <dependency>
+	    <groupId>com.github.avbravo</groupId>
+	    <artifactId>avbravoutils</artifactId>
+	    <version>0.9</version>
+	</dependency>-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>avbravoutils</artifactId>
-            <version>0.9</version>
+            <version>0.9.1</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
