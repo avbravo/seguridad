@@ -159,6 +159,11 @@ public class SessionController implements Serializable, SecurityInterface {
     }// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="timeOfConnection"> 
 
+    public Date timeOfCreation(HttpSession session) {
+       
+             return new Date(session.getCreationTime());
+      
+    }
     public String timeOfConnection(HttpSession session) {
         try {
 //            System.out.println("----------------------------------------");
@@ -172,9 +177,9 @@ public class SessionController implements Serializable, SecurityInterface {
        return "";
     }
     // </editor-fold>
-public String lastConnection(HttpSession session){
+public Date lastConnection(HttpSession session){
     //return JsfUtil.milisegundosToTiempoString(session.getLastAccessedTime());
-return String.valueOf(session.getLastAccessedTime());
+return new Date(session.getLastAccessedTime());
 
 }
 // <editor-fold defaultstate="collapsed" desc="saludar"> 

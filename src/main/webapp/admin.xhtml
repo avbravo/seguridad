@@ -20,19 +20,20 @@
                         <h:outputLabel value="username #{loginController.username}"/>
 
                         contextPath: #{request.contextPath}
-                        <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+                       
                         <p:outputLabel value="MaxInactive Interval #{facesContext.externalContext.sessionMaxInactiveInterval}"/>
 
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Online">
-                    <p:panelGrid columns="4">
+                    <p:panelGrid columns="5">
 
 
                         <p:commandButton value="Salir" action="#{loginController.doLogout()}"/>
                         <p:commandButton value="Mensaje Prueba " action="#{sessionController.saludar()}"/>
                         <p:outputLabel value="Segundos Refresco"/>
                         <p:outputLabel value="#{sessionController.segundosRefresh}"/>
+                         <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Browser Sessions" >
@@ -43,6 +44,7 @@
                     <p:dataTable value="#{sessionController.browserSessionsList}"
                                  id="sessionDataTable"
                                  var="item"
+                              
                                  selectionMode="single" 
                                  widgetVar="browserSessionsTable"
                                  selection="#{sessionController.browserSessionSelecction}"
@@ -54,15 +56,11 @@
 
                         <p:ajax event="rowSelect" update=":form:sesionDetaill" oncomplete="PF('sesionDialog').show()" />
 
-                        <!-- <f:facet name="header">
-                                                            <p:outputPanel>
-                                                                <div class="searchLoader">
-                                                                    <p:graphicImage  name="/img/search-loader.gif"/>
-                                                                </div>
-                                                                <input type="text" jsf:id="globalFilter" jsf:onkeyup="PF('browserSessionsTable').filter()" class="search" placeholder="Search"/>               
-                                                            </p:outputPanel>
-                                                        </f:facet>-->
-                        <p:column headerText="id" filterBy="#{item.id}" sortBy="#{item.id}"  filterMatchMode="contains">
+                 
+                        
+          
+            
+                        <p:column headerText="id" filterBy="#{item.id}" sortBy="#{item.id}"  >
                             <h:outputText value="#{item.id}" />
                         </p:column>
 
@@ -79,35 +77,37 @@
                             <h:outputText value="#{item.token}" />
 
                         </p:column>
-
-
-                        <p:column headerText="Time creation" filterBy="#{item.time}" sortBy="#{item.time}"  >
-                            <h:outputText value="#{item.time}" />
-
+   <p:column headerText="Expiracion"   >
+                            <h:outputText value="#{sessionController.expiracion(item.session)}" >
+ 
+                            </h:outputText>
                         </p:column>
-
+              
                         <p:column headerText="Tiempo de conexion"   >
 
                             <h:outputText value="#{sessionController.timeOfConnection(item.session)}" />
-                        </p:column>
+                        </p:column>          
 
-                        <p:column headerText="Segundos Faltan"   >
-                            <h:outputText value="#{sessionController.segundosRestantesParaInactividad(item.session)}"/>
+                        <p:column headerText="maxInactiveInterval" filterBy="#{item.session.maxInactiveInterval}" sortBy="#{item.session.maxInactiveInterval}"  >
+                            <h:outputText value="#{item.session.maxInactiveInterval}" />
 
                         </p:column>
                         <p:column headerText="lastConnection"   >
                             <h:outputText value="#{sessionController.lastConnection(item.session)}"/>
 
                         </p:column>
+                        <p:column headerText="Time creation" filterBy="#{item.time}" sortBy="#{item.time}"  >
+                            <h:outputText value="#{sessionController.timeOfCreation(item.session)}" />
 
-
-
-
-                        <p:column headerText="Expiracion"   >
-                            <h:outputText value="#{sessionController.expiracion(item.session)}" >
-
-                            </h:outputText>
                         </p:column>
+
+
+
+                        
+
+
+                     
+
 
                     </p:dataTable>
 
