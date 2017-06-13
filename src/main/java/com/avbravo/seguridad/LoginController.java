@@ -164,7 +164,8 @@ public class LoginController implements Serializable, SecurityInterface {
             }
             if (isUserValid()) {
 
-                saveUserInSession(username, 2100);
+                saveUserInSession(username, 150);
+               // saveUserInSession(username, 2100);
 
                 loggedIn = true;
                 return rol;
