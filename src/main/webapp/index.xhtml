@@ -30,10 +30,15 @@
                                         <f:selectItem itemLabel="welcome" itemValue="welcome" />
                                         <f:selectItem itemLabel="admin" itemValue="admin" />
                         </p:selectOneMenu>
-                      <p:commandButton value="Login" action="#{loginController.doLogin()}"
+                     
+                      <f:facet name="footer">
+                           <p:commandButton value="Login" action="#{loginController.doLogin()}"
+                                       update =":form:growl :form:panelToken :form"/>
+                      <p:commandButton value="Anular sesion de ese usuario" action="#{loginController.destroyByUser()}"
+                                       rendered="#{loginController.userwasLoged}"
                                        update =":form:growl :form:panelToken :form"/>
 
-                  
+                      </f:facet>
                      
                   </p:panelGrid>
               </p:panel>
@@ -53,7 +58,7 @@
                       
                       <p:commandButton value="Invalidar Sesion por Token" update=":form :form:growl :form:panelToken"
                                        rendered="#{loginController.tokenwassend}"
-                                       action="#{loginController.destroyWithToken()}"/>
+                                       action="#{loginController.destroyByToken()}"/>
                   </p:panelGrid>
               </p:panel>
               <p:confirmDialog widgetVar="sessionDialog" closable="false" global="true" showEffect="fade" hideEffect="fade"

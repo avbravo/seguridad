@@ -155,7 +155,7 @@ public class SessionController implements Serializable, SecurityInterface {
 // </editor-fold>
     public String segundosRestantesParaInactividad(HttpSession session) {
         
-        return JsfUtil.milisegundosToTiempoString(getMilisegundosForInactivate(session));
+        return JsfUtil.milisegundosToTiempoString(milisegundosForInactivate(session));
     }// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="timeOfConnection"> 
 

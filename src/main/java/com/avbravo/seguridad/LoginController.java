@@ -141,7 +141,7 @@ public class LoginController implements Serializable, SecurityInterface {
             loggedIn = false;
             //aqui
 
-            usernameRecover = getUsernameRecoveryOfSession();
+            usernameRecover = usernameRecoveryOfSession();
             recoverSession = !usernameRecover.equals("");
 
             if (recoverSession) {
@@ -165,7 +165,7 @@ public class LoginController implements Serializable, SecurityInterface {
             if (isUserValid()) {
 
                 saveUserInSession(username, 300);
-               // saveUserInSession(username, 2100);
+                // saveUserInSession(username, 2100);
 
                 loggedIn = true;
                 return rol;
@@ -179,6 +179,21 @@ public class LoginController implements Serializable, SecurityInterface {
         return "";
     }// </editor-fold>
 
+//    // <editor-fold defaultstate="collapsed" desc="anularsesionusuario"> 
+//    public String anularUsuario(){
+//        try {
+//             if (isUserValid()) {
+//                userwasLoged = !destroyByToken(username, mytoken);
+//
+//            } else {
+//                JsfUtil.warningMessage("Los datos del usuario no son validos");
+//            }
+//        } catch (Exception e) {
+//               JsfUtil.errorMessage("anularUsuario() " + e.getLocalizedMessage());
+//        }
+//        return "";
+//    }
+//// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="isUserValid"> 
     /**
      * verifica si es valido el usuario
@@ -221,7 +236,7 @@ public class LoginController implements Serializable, SecurityInterface {
 //                //no es el email del usuario
 //            }
             ManagerEmail managerEmail = new ManagerEmail();
-            String token = getTokenOfUsername(username);
+            String token = tokenOfUsername(username);
             if (!token.equals("")) {
 
                 String texto = "Token para iniciar sesion: " + token + "\r\n " + "Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token";
@@ -241,11 +256,32 @@ public class LoginController implements Serializable, SecurityInterface {
         return "";
     }// </editor-fold>
 
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="destroyWithToken()"> 
-    public String destroyWithToken() {
+    public String destroyByUser() {
         try {
             if (isUserValid()) {
-                userwasLoged = !destroyWithToken(username, mytoken);
+                userwasLoged = !destroyByUsername(username);
+                if (!userwasLoged) {
+                    JsfUtil.successMessage("Fue destruida la sesion puede ingresar al sistema");
+                } else {
+                    JsfUtil.successMessage("No fue destruida la sesion no puede ingresar al sistema");
+                }
+            } else {
+                JsfUtil.warningMessage("Los datos del usuario no son validos");
+            }
+        } catch (Exception e) {
+            JsfUtil.errorMessage("destroyByUser() " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="destroyWithToken()"> 
+
+    public String destroyByToken() {
+        try {
+            if (isUserValid()) {
+                userwasLoged = !destroyByToken(username, mytoken);
 
             } else {
                 JsfUtil.warningMessage("Los datos del usuario no son validos");
@@ -262,7 +298,6 @@ public class LoginController implements Serializable, SecurityInterface {
         return "";
     }
 // <editor-fold defaultstate="collapsed" desc="invalidarActual()"> 
-
 
     public String invalidarActual() {
         try {
