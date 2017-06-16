@@ -143,16 +143,13 @@ public class LoginController implements Serializable, SecurityInterface {
 
             usernameRecover = usernameRecoveryOfSession();
             recoverSession = !usernameRecover.equals("");
-
             if (recoverSession) {
-
                 RequestContext.getCurrentInstance().execute("PF('sessionDialog').show();");
-
                 return "";
             }
 
             if (recoverSession && usernameRecover.equals(username)) {
-//                System.out.println("---doLogin().esRecoverSession el mismo usuario no se debe verificar que exista en las sesiones");
+
             } else {
 
                 if (isUserLogged(username)) {
@@ -179,21 +176,7 @@ public class LoginController implements Serializable, SecurityInterface {
         return "";
     }// </editor-fold>
 
-//    // <editor-fold defaultstate="collapsed" desc="anularsesionusuario"> 
-//    public String anularUsuario(){
-//        try {
-//             if (isUserValid()) {
-//                userwasLoged = !destroyByToken(username, mytoken);
-//
-//            } else {
-//                JsfUtil.warningMessage("Los datos del usuario no son validos");
-//            }
-//        } catch (Exception e) {
-//               JsfUtil.errorMessage("anularUsuario() " + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }
-//// </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="isUserValid"> 
     /**
      * verifica si es valido el usuario
@@ -257,7 +240,7 @@ public class LoginController implements Serializable, SecurityInterface {
     }// </editor-fold>
 
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="destroyWithToken()"> 
+    // <editor-fold defaultstate="collapsed" desc="destroyByUser()"> 
     public String destroyByUser() {
         try {
             if (isUserValid()) {

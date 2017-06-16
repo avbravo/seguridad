@@ -166,10 +166,6 @@ public class SessionController implements Serializable, SecurityInterface {
     }
     public String timeOfConnection(HttpSession session) {
         try {
-//            System.out.println("----------------------------------------");
-//            System.out.println("timeOfConnection() ");
-//            System.out.println("session.id "+session.getId());
-//            System.out.println("getMiliSecondsOfConnection(session) "+miliSecondsOfConnection(session));
              return JsfUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));
         } catch (Exception e) {
             JsfUtil.errorMessage("timeOfConecction() "+e.getLocalizedMessage());
