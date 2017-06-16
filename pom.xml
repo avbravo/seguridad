@@ -4,7 +4,7 @@
 
     <groupId>com.avbravo</groupId>
     <artifactId>seguridad</artifactId>
-    <version>0.8.3.4</version>
+    <version>0.10</version>
     <packaging>war</packaging>
 
     <name>seguridad</name>
@@ -30,15 +30,17 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
-<!--        <dependency>
+        
+        <dependency>
 	    <groupId>com.github.avbravo</groupId>
 	    <artifactId>avbravoutils</artifactId>
-	    <version>0.9</version>
-	</dependency>-->
+	    <version>0.10</version>
+	</dependency>
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>avbravoutils</artifactId>
-            <version>0.9.1.1</version>
+            <version>0.10</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
