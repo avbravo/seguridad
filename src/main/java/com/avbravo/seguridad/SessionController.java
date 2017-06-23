@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import com.avbravo.avbravoutils.security.SecurityInterface;
 // </editor-fold>
+
 /**
  *
  * @author avbravo
@@ -27,7 +28,6 @@ import com.avbravo.avbravoutils.security.SecurityInterface;
 @Named
 @ViewScoped
 public class SessionController implements Serializable, SecurityInterface {
-
 
 // <editor-fold defaultstate="collapsed" desc="atributos"> 
     private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class SessionController implements Serializable, SecurityInterface {
     private BrowserSession browserSessionSelecction = new BrowserSession();
     List<BrowserSession> browserSessionsList = new ArrayList<>();
     List<BrowserSession> browserSessionsFilterList = new ArrayList<>();
-    
+
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="setget"> 
     public Integer getSegundosRefresh() {
@@ -70,7 +70,8 @@ public class SessionController implements Serializable, SecurityInterface {
 
     public void setBrowserSessionsFilterList(List<BrowserSession> browserSessionsFilterList) {
         this.browserSessionsFilterList = browserSessionsFilterList;
-    }// </editor-fold>
+    }
+// </editor-fold>
 
     /**
      * Creates a new instance of SessionController
@@ -79,13 +80,13 @@ public class SessionController implements Serializable, SecurityInterface {
     }
 
     // <editor-fold defaultstate="collapsed" desc="init"> 
-
     @PostConstruct
     public void init() {
 
         showAllSessions();
 
     }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="destroy"> 
     @PreDestroy
@@ -107,9 +108,10 @@ public class SessionController implements Serializable, SecurityInterface {
         }
 
         return "";
-    }// </editor-fold>
+    }
+// </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="killAllSessions"> 
+// <editor-fold defaultstate="collapsed" desc="killAllSessions"> 
     public String killAllSessions() {
         try {
             if (cancelAllSesion()) {
@@ -127,6 +129,8 @@ public class SessionController implements Serializable, SecurityInterface {
         return "";
     }// </editor-fold>
 
+    
+    
 // <editor-fold defaultstate="collapsed" desc="cancelSelectedSession"> 
     public String cancelSelectedSession(BrowserSession browserSesssion) {
         try {
@@ -149,37 +153,47 @@ public class SessionController implements Serializable, SecurityInterface {
         return "";
     }// </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="expiracion"> 
-    public Date expiracion(HttpSession session) {
+    // <editor-fold defaultstate="collapsed" desc="dateofEpirtation"> 
+    public Date dateOfExpiration(HttpSession session) {
         return getDateTiemExpiration(session);
     }
 // </editor-fold>
-    public String segundosRestantesParaInactividad(HttpSession session) {
-        
+
+    // <editor-fold defaultstate="collapsed" desc="secondsForInactivity"> 
+    public String secondsForInactivity(HttpSession session) {
+
         return JsfUtil.milisegundosToTiempoString(milisegundosForInactivate(session));
     }// </editor-fold>
+    
+    // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="timeOfConnection"> 
 
     public Date timeOfCreation(HttpSession session) {
-       
-             return new Date(session.getCreationTime());
-      
+
+        return new Date(session.getCreationTime());
+
     }
+
     public String timeOfConnection(HttpSession session) {
         try {
-             return JsfUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));
+            return JsfUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));
         } catch (Exception e) {
-            JsfUtil.errorMessage("timeOfConecction() "+e.getLocalizedMessage());
+            JsfUtil.errorMessage("timeOfConecction() " + e.getLocalizedMessage());
         }
-       return "";
+        return "";
     }
     // </editor-fold>
-public Date lastConnection(HttpSession session){
-    //return JsfUtil.milisegundosToTiempoString(session.getLastAccessedTime());
-return new Date(session.getLastAccessedTime());
+// <editor-fold defaultstate="collapsed" desc="lastConnection"> 
 
-}
+    public Date lastConnection(HttpSession session) {
+        //return JsfUtil.milisegundosToTiempoString(session.getLastAccessedTime());
+        return new Date(session.getLastAccessedTime());
+
+    }
+    // </editor-fold>
+    
 // <editor-fold defaultstate="collapsed" desc="saludar"> 
+
     public String saludar() {
         try {
 
