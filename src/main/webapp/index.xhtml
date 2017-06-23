@@ -65,7 +65,7 @@
                   message="Hay una sesion creada en este navegador se procedera a cerrarla.">
      <p:commandButton value="Cerrar" oncomplete="PF('sessionDialog').hide();" 
           update=":form" styleClass="ui-confirmdialog-yes"
-              action="#{loginController.invalidarActual()}" />
+          action="#{loginController.invalidateCurrentSession()}" />
 
     </p:confirmDialog>
           </h:form>

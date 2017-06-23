@@ -159,6 +159,7 @@ public class LoginController implements Serializable, SecurityInterface {
                 }
 
             }
+
             if (isUserValid()) {
 
                 saveUserInSession(username, 300);
@@ -175,7 +176,6 @@ public class LoginController implements Serializable, SecurityInterface {
         }
         return "";
     }// </editor-fold>
-
 
 // <editor-fold defaultstate="collapsed" desc="isUserValid"> 
     /**
@@ -240,6 +240,7 @@ public class LoginController implements Serializable, SecurityInterface {
     }// </editor-fold>
 
 // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="destroyByUser()"> 
     public String destroyByUser() {
         try {
@@ -282,7 +283,7 @@ public class LoginController implements Serializable, SecurityInterface {
     }
 // <editor-fold defaultstate="collapsed" desc="invalidarActual()"> 
 
-    public String invalidarActual() {
+    public String invalidateCurrentSession(){
         try {
             if (invalidateMySession()) {
                 JsfUtil.successMessage("Sesion actual invalidada exitosamente");

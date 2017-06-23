@@ -28,15 +28,16 @@ import com.avbravo.avbravoutils.security.SecurityInterface;
 @ViewScoped
 public class SessionController implements Serializable, SecurityInterface {
 
-    private static final long serialVersionUID = 1L;
-// <editor-fold defaultstate="collapsed" desc="atributos"> 
 
+// <editor-fold defaultstate="collapsed" desc="atributos"> 
+    private static final long serialVersionUID = 1L;
     private Integer segundosRefresh = 3;
     @Inject
     LoginController loginController;
     private BrowserSession browserSessionSelecction = new BrowserSession();
     List<BrowserSession> browserSessionsList = new ArrayList<>();
     List<BrowserSession> browserSessionsFilterList = new ArrayList<>();
+    
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="setget"> 
     public Integer getSegundosRefresh() {
