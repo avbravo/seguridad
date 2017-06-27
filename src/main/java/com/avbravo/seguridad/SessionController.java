@@ -6,8 +6,9 @@
 package com.avbravo.seguridad;
 // <editor-fold defaultstate="collapsed" desc="import"> 
 
+import com.avbravo.avbravosecurity.BrowserSession;
+import com.avbravo.avbravosecurity.SecurityInterface;
 import com.avbravo.avbravoutils.JsfUtil;
-import com.avbravo.avbravoutils.security.BrowserSession;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import com.avbravo.avbravoutils.security.SecurityInterface;
+
 // </editor-fold>
 
 /**

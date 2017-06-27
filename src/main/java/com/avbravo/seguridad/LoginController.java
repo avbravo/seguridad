@@ -5,6 +5,7 @@
  */
 package com.avbravo.seguridad;
 
+import com.avbravo.avbravosecurity.SecurityInterface;
 import com.avbravo.avbravoutils.JsfUtil;
 import com.avbravo.avbravoutils.email.ManagerEmail;
 
@@ -13,7 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import com.avbravo.avbravoutils.security.SecurityInterface;
+
 import org.primefaces.context.RequestContext;
 
 /**
