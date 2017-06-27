@@ -282,7 +282,7 @@ public class LoginController implements Serializable, SecurityInterface {
         JsfUtil.successMessage("Hola " + username + " a las " + JsfUtil.getTiempo());
         return "";
     }
-// <editor-fold defaultstate="collapsed" desc="invalidarActual()"> 
+// <editor-fold defaultstate="collapsed" desc="invalidateCurrentSession"> 
 
     public String invalidateCurrentSession(){
         try {
