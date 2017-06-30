@@ -38,15 +38,15 @@
                 </p:panel>
                 <p:panel header="Browser Sessions" >
 
-                    <p:poll interval="#{sessionController.segundosRefresh}" listener="#{sessionController.showAllSessions()}" update="sessionDataTable" />
+                    <p:poll interval="#{sessionController.segundosRefresh}" listener="#{sessionController.showAllSessions()}" update="dataTable" />
 
 
                     <p:dataTable value="#{sessionController.browserSessionsList}"
-                                 id="sessionDataTable"
+                                 id="dataTable"
                                  var="item"
                               
                                  selectionMode="single" 
-                                 widgetVar="browserSessionsTable"
+                                 widgetVar="widgetDataTable"
                                  selection="#{sessionController.browserSessionSelecction}"
                                  filteredValue="#{sessionController.browserSessionsFilterList}"
                                  rowKey="#{item.id}"
@@ -118,14 +118,15 @@
                     <p:panelGrid columns="3">
 
                         <p:commandButton value="Mostrar Sessiones" action="#{sessionController.showAllSessions()}"
-                                         update=":form:growl form:sessionDataTable"/>
+                                         update=":form:growl form:dataTable"/>
                         <p:commandButton value="Terminar Todas Sesiones" action="#{sessionController.killAllSessions()}"
-                                         update=":form:growl form:sessionDataTable"/>
+                                         update=":form:growl form:dataTable"/>
                     </p:panelGrid>
                 </p:panel>  
 
                 <p:dialog header="Session" widgetVar="sesionDialog"  width="450" height="450"
-                          modal="true" showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+                          modal="true" showEffect="fade" hideEffect="fade" resizable="false" 
+                          responsive="true">
                     <p:outputPanel id="sesionDetaill" style="text-align:center;">
                         <p:panelGrid  columns="2" rendered="#{not empty sessionController.browserSessionSelecction}" 
                                       layout="grid" styleClass="ui-panelgrid-blank">
@@ -152,7 +153,7 @@
 
                             <p:commandButton id="btn" value="Cancelar Sesion" icon="fa fa-edit Fs14 White"  style="max-width:150px;"
                                              title="Cancelar"
-                                             update=":form:growl form:sessionDataTable"
+                                             update=":form:growl form:dataTable"
                                              oncomplete="PF('sesionDialog').hide()"
                                              action="#{sessionController.cancelSelectedSession(sessionController.browserSessionSelecction)}"
                                              />
