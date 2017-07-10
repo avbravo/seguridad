@@ -37,6 +37,12 @@
                            <p:commandButton value="Anular sesion de ese usuario" action="#{loginController.destroyByUser()}"
                                        rendered="#{loginController.userwasLoged}"
                                        update =":form:growl :form:panelToken :form"/>
+                           <p:commandButton value="Encriptar" 
+                                            action="#{loginController.encriptar()}"
+                      
+                                       update =":form:growl :form:panelToken :form"/>
+                           
+                       
 
                       </f:facet>
                      

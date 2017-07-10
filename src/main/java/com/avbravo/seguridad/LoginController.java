@@ -36,10 +36,22 @@ public class LoginController implements Serializable, SecurityInterface {
     String usernameRecover = "";
     String myemail = "@gmail.com";
     String mytoken = "";
+    String passwordencriptado="";
 
     private Boolean loggedIn = false;
 
     // <editor-fold defaultstate="collapsed" desc="get/set"> 
+
+    public String getPasswordencriptado() {
+        return passwordencriptado;
+    }
+
+    public void setPasswordencriptado(String passwordencriptado) {
+        this.passwordencriptado = passwordencriptado;
+    }
+    
+    
+    
     public String getMyemail() {
         return myemail;
     }
@@ -121,11 +133,11 @@ public class LoginController implements Serializable, SecurityInterface {
 
     @PostConstruct
     public void init() {
-
         loggedIn = false;
         recoverSession = false;
         userwasLoged = false;
         tokenwassend = false;
+        passwordencriptado="";
 
     }
 
@@ -137,6 +149,7 @@ public class LoginController implements Serializable, SecurityInterface {
 
     public String doLogin() {
         try {
+            passwordencriptado="";
             userwasLoged = false;
             tokenwassend = false;
             loggedIn = false;
@@ -282,6 +295,14 @@ public class LoginController implements Serializable, SecurityInterface {
         JsfUtil.successMessage("Hola " + username + " a las " + JsfUtil.getTiempo());
         return "";
     }
+    public String encriptar() {
+        passwordencriptado =JsfUtil.encriptar(password);
+        JsfUtil.warningMessage("encriptado "+passwordencriptado);
+        System.out.println("password encriptado "+passwordencriptado);
+        return "";
+    }
+    
+    
 // <editor-fold defaultstate="collapsed" desc="invalidateCurrentSession"> 
 
     public String invalidateCurrentSession(){
