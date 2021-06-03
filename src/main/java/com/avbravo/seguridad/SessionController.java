@@ -6,9 +6,10 @@
 package com.avbravo.seguridad;
 // <editor-fold defaultstate="collapsed" desc="import"> 
 
-import com.avbravo.avbravosecurity.BrowserSession;
-import com.avbravo.avbravosecurity.SecurityInterface;
-import com.avbravo.avbravoutils.JsfUtil;
+import com.avbravo.jmoordbsecurity.BrowserSession;
+import com.avbravo.jmoordbsecurity.SecurityInterface;
+import com.avbravo.jmoordbutils.DateUtil;
+import com.avbravo.jmoordbutils.JsfUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -163,7 +164,7 @@ public class SessionController implements Serializable, SecurityInterface {
     // <editor-fold defaultstate="collapsed" desc="secondsForInactivity"> 
     public String secondsForInactivity(HttpSession session) {
 
-        return JsfUtil.milisegundosToTiempoString(milisegundosForInactivate(session));
+        return DateUtil.milisegundosToTiempoString(milisegundosForInactivate(session));
     }// </editor-fold>
     
     // </editor-fold>
@@ -177,7 +178,7 @@ public class SessionController implements Serializable, SecurityInterface {
 
     public String timeOfConnection(HttpSession session) {
         try {
-            return JsfUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));
+            return DateUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));
         } catch (Exception e) {
             JsfUtil.errorMessage("timeOfConecction() " + e.getLocalizedMessage());
         }
@@ -198,7 +199,7 @@ public class SessionController implements Serializable, SecurityInterface {
     public String saludar() {
         try {
 
-            JsfUtil.successMessage("Hola " + loginController.getUsername() + " a las " + JsfUtil.getTiempo());
+            JsfUtil.successMessage("Hola " + loginController.getUsername() + " a las " + DateUtil.tiempo());
             browserSessionsList = allBrowserSessionList();
             browserSessionsFilterList = browserSessionsList;
         } catch (Exception e) {

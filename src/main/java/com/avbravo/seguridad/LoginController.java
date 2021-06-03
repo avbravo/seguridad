@@ -5,17 +5,18 @@
  */
 package com.avbravo.seguridad;
 
-import com.avbravo.avbravosecurity.SecurityInterface;
-import com.avbravo.avbravoutils.JsfUtil;
-import com.avbravo.avbravoutils.email.ManagerEmail;
+import com.avbravo.jmoordbsecurity.SecurityInterface;
+import com.avbravo.jmoordbutils.DateUtil;
+import com.avbravo.jmoordbutils.JsfUtil;
+import com.avbravo.jmoordbutils.email.ManagerEmail;
 
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import org.primefaces.PrimeFaces;
 
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -158,7 +159,9 @@ public class LoginController implements Serializable, SecurityInterface {
             usernameRecover = usernameRecoveryOfSession();
             recoverSession = !usernameRecover.equals("");
             if (recoverSession) {
-                RequestContext.getCurrentInstance().execute("PF('sessionDialog').show();");
+                 PrimeFaces current = PrimeFaces.current();
+                    current.executeScript("PF('sessionDialog').show();");
+//                RequestContext.getCurrentInstance().execute("PF('sessionDialog').show();");
                 return "";
             }
 
@@ -292,7 +295,7 @@ public class LoginController implements Serializable, SecurityInterface {
 // </editor-fold>
 
     public String saludar() {
-        JsfUtil.successMessage("Hola " + username + " a las " + JsfUtil.getTiempo());
+        JsfUtil.successMessage("Hola " + username + " a las " + DateUtil.tiempo());
         return "";
     }
     public String encriptar() {
